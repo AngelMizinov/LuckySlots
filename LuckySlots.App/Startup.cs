@@ -34,7 +34,7 @@
 
             services.AddDbContext<LuckySlotsDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("LuckySlotsDbContextConnection")));
+                    Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<LuckySlotsDbContext>()
