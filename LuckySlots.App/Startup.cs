@@ -3,6 +3,8 @@
     using LuckySlots.Data;
     using LuckySlots.Data.Models;
     using LuckySlots.Infrastructure;
+    using LuckySlots.Infrastructure.HttpClient;
+    using LuckySlots.Infrastructure.Providers;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -40,6 +42,10 @@
                 .AddEntityFrameworkStores<LuckySlotsDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddHttpClient<IExchangeRateHttpClient, ExchangeRateHttpClient>();
+
+            services.AddSingleton<IJsonParser, JsonParser>();
+            
             services.AddSingleton<IEmailSender, EmailSender>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

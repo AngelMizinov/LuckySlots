@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckySlots.Data", "LuckySlots.Data\LuckySlots.Data.csproj", "{68D19A9D-E112-4055-ACF3-112CF9321B71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuckySlots.Data", "LuckySlots.Data\LuckySlots.Data.csproj", "{68D19A9D-E112-4055-ACF3-112CF9321B71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckySlots.Data.Models", "LuckySlots.Data.Models\LuckySlots.Data.Models.csproj", "{031A674A-0198-40CC-9169-082AB478254B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuckySlots.Data.Models", "LuckySlots.Data.Models\LuckySlots.Data.Models.csproj", "{031A674A-0198-40CC-9169-082AB478254B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckySlots.App", "LuckySlots.App\LuckySlots.App.csproj", "{5B24FAC6-364B-45AD-AA20-374732B09FE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuckySlots.App", "LuckySlots.App\LuckySlots.App.csproj", "{5B24FAC6-364B-45AD-AA20-374732B09FE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckySlots.Infrastructure", "LuckySlots.Infrastructure\LuckySlots.Infrastructure.csproj", "{CCE03E36-F125-498E-B49A-9F619250EE36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuckySlots.Infrastructure", "LuckySlots.Infrastructure\LuckySlots.Infrastructure.csproj", "{CCE03E36-F125-498E-B49A-9F619250EE36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckySlots.Services", "LuckySlots.Services\LuckySlots.Services.csproj", "{FF0BE3DB-5A9C-4A40-BEFC-BBA7D534E5DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{CCE03E36-F125-498E-B49A-9F619250EE36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCE03E36-F125-498E-B49A-9F619250EE36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCE03E36-F125-498E-B49A-9F619250EE36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF0BE3DB-5A9C-4A40-BEFC-BBA7D534E5DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF0BE3DB-5A9C-4A40-BEFC-BBA7D534E5DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF0BE3DB-5A9C-4A40-BEFC-BBA7D534E5DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF0BE3DB-5A9C-4A40-BEFC-BBA7D534E5DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

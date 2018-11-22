@@ -5,13 +5,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LuckySlots.App.Models;
+using LuckySlots.Infrastructure.Providers;
 
 namespace LuckySlots.App.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IJsonParser parser;
+
+        public HomeController(IJsonParser parser)
         {
+            this.parser = parser;
+        }
+
+
+        public async Task<IActionResult> Index()
+        {
+            //var result = await this.parser.ExtractExchangeRate("EUR");
+
+            //return Content(result.ToString());
+
             return View();
         }
 
