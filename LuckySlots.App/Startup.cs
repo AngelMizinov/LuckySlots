@@ -5,6 +5,8 @@
     using LuckySlots.Infrastructure;
     using LuckySlots.Infrastructure.HttpClient;
     using LuckySlots.Infrastructure.Providers;
+    using LuckySlots.Services.Admin;
+    using LuckySlots.Services.Contracts;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -43,12 +45,15 @@
                 .AddDefaultTokenProviders();
 
             services.AddHttpClient<IExchangeRateHttpClient, ExchangeRateHttpClient>();
-
             services.AddSingleton<IJsonParser, JsonParser>();
-            
             services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddTransient<IUserManagementServices, UserManagementServices>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

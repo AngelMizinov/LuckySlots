@@ -1,5 +1,7 @@
 ﻿namespace LuckySlots.App.Areas.Identity.Pages.Account
 {
+    using LuckySlots.App.Infrastructure.Enums;
+    using LuckySlots.App.Infrastructure.ValidationAttributes;
     using LuckySlots.Data.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -7,6 +9,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
@@ -39,6 +42,16 @@
         public class InputModel
         {
             [Required]
+            [StringLength(50, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 3)]
+            [Display(Name = "First name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(50, ErrorMessage = "{0} should be between {2} and {1} characters long.", MinimumLength = 3)]
+            [Display(Name = "Last name")]
+            public string LastName { get; set; }
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -53,6 +66,14 @@
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required(ErrorMessage = "You must select a currency from the dropdown.")]
+            public CurrencyCodes Currency { get; set; }
+
+            [Required]
+            [Display(Name = "Date of birth")]
+            [MinimumAge(18, ErrorMessage = "You must be {0} years of age in order to register.")]
+            public DateTime DateOfBirth { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -65,8 +86,18 @@
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Email, Email = Input.Email };
+                var user = new User
+                {
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName,
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    Currency = Input.Currency.ToString(),
+                    DateBirth = Input.DateOfBirth
+                };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
