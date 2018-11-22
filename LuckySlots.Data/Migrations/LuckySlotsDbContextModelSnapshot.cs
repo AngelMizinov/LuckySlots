@@ -19,6 +19,58 @@ namespace LuckySlots.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("LuckySlots.Data.Models.CreditCard", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CVV");
+
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<DateTime>("Expiry");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<string>("Number");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CreditCards");
+                });
+
+            modelBuilder.Entity("LuckySlots.Data.Models.Transaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("Amount");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Type")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Transactions");
+                });
+
             modelBuilder.Entity("LuckySlots.Data.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -29,14 +81,32 @@ namespace LuckySlots.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<string>("Currency");
+
+                    b.Property<DateTime>("DateBirth");
+
+                    b.Property<DateTime?>("DeletedOn");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50);
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -178,6 +248,20 @@ namespace LuckySlots.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("LuckySlots.Data.Models.CreditCard", b =>
+                {
+                    b.HasOne("LuckySlots.Data.Models.User", "User")
+                        .WithMany("CreditCards")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("LuckySlots.Data.Models.Transaction", b =>
+                {
+                    b.HasOne("LuckySlots.Data.Models.User", "User")
+                        .WithMany("Transactions")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
