@@ -1,11 +1,14 @@
 ﻿namespace LuckySlots.App.Areas.Admin.Controllers
 {
     using LuckySlots.App.Areas.Admin.Models;
+    using LuckySlots.Infrastructure;
     using LuckySlots.Services.Contracts;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
 
     [Area("Admin")]
+    [Authorize(Roles = GlobalConstatnts.AdministratorRoleName)]
     public class UsersController : Controller
     {
         private readonly IUserManagementServices userManagementServices;
