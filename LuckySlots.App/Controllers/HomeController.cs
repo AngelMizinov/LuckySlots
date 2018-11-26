@@ -18,21 +18,23 @@ namespace LuckySlots.App.Controllers
         private readonly IJsonParser parser;
         private readonly IAccountService accountService;
         private readonly UserManager<User> userManager;
-
+        
         public HomeController(IJsonParser parser,IAccountService accountService,UserManager<User> userManager)
         {
             this.parser = parser;
             this.accountService = accountService;
             this.userManager = userManager;
         }
-
-
+        
         public async Task<IActionResult> Index()
         {
+            //CHECK API
             //var result = await this.parser.ExtractExchangeRate("EUR");
-
             //return Content(result.ToString());
 
+            //GET CURRENT USER
+            //var currUser = await this.userManager.GetUserAsync(this.User);
+            
             return View();
         }
         

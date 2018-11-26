@@ -1,15 +1,16 @@
-﻿using LuckySlots.Data;
-using LuckySlots.Services.Abstract;
-using LuckySlots.Services.Contracts;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LuckySlots.Services.Account
+﻿namespace LuckySlots.Services.Account
 {
+    using LuckySlots.Data;
+    using LuckySlots.Services.Abstract;
+    using LuckySlots.Services.Contracts;
+    using LuckySlots.Services.Infrastructure.Exceptions;
+    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public class AccountService : BaseService, IAccountService
     {
         public AccountService(LuckySlotsDbContext context) : base(context)
@@ -23,7 +24,7 @@ namespace LuckySlots.Services.Account
             
             if(user.AccountBalance < amount)
             {
-                throw new ArgumentException("User's balance is not enough for charging.");
+                throw new InsufficientFundsException("User's balance is not enough for charging.");
             }
 
             user.AccountBalance -= amount;
