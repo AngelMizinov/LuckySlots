@@ -1,0 +1,73 @@
+﻿@model ValidationPageViewModel
+
+@{
+    ViewData["Title"] = "ValidationPage";
+}
+
+<!-- Modal -->
+<div class="modal fade in" id="homeModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalLongTitle">Please enter date of birth</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form asp-controller="Home" asp-action="ValidationPage" method="post" class="form-inline justify-content-center">
+                    <div class="form-group">
+                        <label asp-for="@Model.DateOfBirth.Day" class="sr-only"></label>
+                        <input asp-for="@Model.DateOfBirth.Day" type="text" class="form-control" placeholder="DD">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.DateOfBirth.Month" class="sr-only"></label>
+                        <input asp-for="@Model.DateOfBirth.Month" type="text" class="form-control" placeholder="MM">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.DateOfBirth.Year" class="sr-only"></label>
+                        <input asp-for="@Model.DateOfBirth.Year" type="text" class="form-control" placeholder="YYYY">
+                    </div>
+
+                    <div class="row">
+                        <button style="font-size:25px;" class="btn btn-dark-green waves-effect my-sm-0" type="submit">Submit</button>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+    {
+    <script>
+        //$(function () {
+        //    // load the overlay
+        //    $('#homeModal').modal({
+        //        show: true
+        //    });
+
+        //    var year = 1000 * 60 * 60 * 24 * 365;
+        //    var expires = new Date((new Date()).valueOf() + year);
+        //    document.cookie = "visited=true;expires=" + expires.toUTCString();
+
+        //});
+
+
+        $(document).ready(function () {
+            $('#homeModal').modal({
+                show: true
+            });
+            
+        });
+
+    </script>
+}
+
