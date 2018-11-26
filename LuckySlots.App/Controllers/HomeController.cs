@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LuckySlots.App.Models;
 using LuckySlots.Infrastructure.Providers;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace LuckySlots.App.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IJsonParser parser;
+        private readonly IMemoryCache cache;
 
-        public HomeController(IJsonParser parser)
+        public HomeController(IJsonParser parser, IMemoryCache cache)
         {
             this.parser = parser;
+            this.cache = cache;
         }
 
 
@@ -24,10 +27,10 @@ namespace LuckySlots.App.Controllers
             //var result = await this.parser.ExtractExchangeRate("EUR");
 
             //return Content(result.ToString());
-
+            
             return View();
         }
-
+        
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
