@@ -19,7 +19,7 @@
             UserManager<User> userManager)
             : base(context)
         {
-            this.userManager = userManager;
+            this.userManager = userManager ?? throw new ArgumentNullException("UserManager cannot be null. An instance of UserManager is required.");
         }
 
         public async Task<Transaction> CreateAsync(string userId, string type, decimal amount, string description)
@@ -47,11 +47,11 @@
             return transaction;
         }
 
-        public async Task<IEnumerable<Transaction>> GetAllAsync()
-            => await Task.Run(() => this.Context.Transactions);
+        public async Task<ICollection<Transaction>> GetAllAsync()
+            => await Task.Run(() => this.Context.Transactions.ToList());
 
 
-        public async Task<IEnumerable<Transaction>> GetAllByIdAsync(string id)
+        public async Task<ICollection<Transaction>> GetAllByUserIdAsync(string id)
             => await Task.Run(() => this.Context
                 .Transactions
                 .Where(t => t.UserId == id)
