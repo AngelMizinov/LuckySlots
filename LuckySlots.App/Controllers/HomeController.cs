@@ -7,18 +7,23 @@ using Microsoft.AspNetCore.Mvc;
 using LuckySlots.App.Models;
 using LuckySlots.Infrastructure.Providers;
 using Microsoft.Extensions.Caching.Memory;
+using LuckySlots.Services.Contracts;
+using Microsoft.AspNetCore.Identity;
+using LuckySlots.Data.Models;
 
 namespace LuckySlots.App.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IJsonParser parser;
-        private readonly IMemoryCache cache;
+        private readonly IAccountService accountService;
+        private readonly UserManager<User> userManager;
 
-        public HomeController(IJsonParser parser, IMemoryCache cache)
+        public HomeController(IJsonParser parser,IAccountService accountService,UserManager<User> userManager)
         {
             this.parser = parser;
-            this.cache = cache;
+            this.accountService = accountService;
+            this.userManager = userManager;
         }
 
 
@@ -27,7 +32,7 @@ namespace LuckySlots.App.Controllers
             //var result = await this.parser.ExtractExchangeRate("EUR");
 
             //return Content(result.ToString());
-            
+
             return View();
         }
         
