@@ -1,6 +1,7 @@
 ﻿namespace LuckySlots.App
 {
     using LuckySlots.Data;
+    using LuckySlots.Data.Extensions;
     using LuckySlots.Data.Models;
     using LuckySlots.Infrastructure;
     using LuckySlots.Infrastructure.HttpClient;
@@ -53,12 +54,30 @@
             {
                 options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
 
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            .AddRazorPagesOptions(options =>
+            {
+                options.AllowAreas = true;
+                options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+                options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseDatabaseMigration();
+            app.UseRoleSeeder();
+            app.UseAccountSeeder();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -73,7 +92,6 @@
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseAuthentication();
 
             app.UseMvc(routes =>

@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LuckySlots.Data.Models\LuckySlots.Data.Models.csproj" />
+    <ProjectReference Include="..\LuckySlots.Infrastructure\LuckySlots.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
