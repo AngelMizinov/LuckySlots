@@ -48,7 +48,7 @@
                 .AddEntityFrameworkStores<LuckySlotsDbContext>()
                 .AddDefaultTokenProviders();
 
-                services.AddHttpClient<IExchangeRateHttpClient, ExchangeRateHttpClient>();
+            services.AddHttpClient<IExchangeRateHttpClient, ExchangeRateHttpClient>();
             services.AddSingleton<IJsonParser, JsonParser>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddTransient<IUserManagementServices, UserManagementServices>();

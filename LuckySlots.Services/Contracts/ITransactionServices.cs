@@ -9,9 +9,9 @@
     public interface ITransactionServices
     {
 
-        Task<IEnumerable<Transaction>> GetAllAsync();
+        Task<ICollection<Transaction>> GetAllAsync();
 
-        Task<IEnumerable<Transaction>> GetAllByIdAsync(string id);
+        Task<ICollection<Transaction>> GetAllByUserIdAsync(string id);
 
         Task<Transaction> CreateAsync(string userId, TransactionType type, decimal amount, string description);
     }
