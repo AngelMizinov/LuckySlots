@@ -3,10 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
-
-    public class InsufficientFundsException : Exception
+    
+    public class CreditCardDoesntExistsException : Exception
     {
-        public InsufficientFundsException(string message) : base(message)
+        public CreditCardDoesntExistsException(string message) : base(message)
         {
 
         }

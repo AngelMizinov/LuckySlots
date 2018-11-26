@@ -9,6 +9,7 @@
     using LuckySlots.Services.Account;
     using LuckySlots.Services.Admin;
     using LuckySlots.Services.Contracts;
+    using LuckySlots.Services.CreditCard;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -51,7 +52,9 @@
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddTransient<IUserManagementServices, UserManagementServices>();
 
+            // Register services
             services.AddScoped<IAccountService,AccountService>();
+            services.AddScoped<ICreditCardService, CreditCardService>();
 
             services.AddMvc(options =>
             {

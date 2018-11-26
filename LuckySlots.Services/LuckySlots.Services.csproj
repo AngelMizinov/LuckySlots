@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LuckySlots.Data.Models\LuckySlots.Data.Models.csproj" />
     <ProjectReference Include="..\LuckySlots.Data\LuckySlots.Data.csproj" />
   </ItemGroup>
 
