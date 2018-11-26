@@ -1,6 +1,7 @@
 ﻿namespace LuckySlots.Services.Account
 {
     using LuckySlots.Data;
+    using LuckySlots.Infrastructure.Enums;
     using LuckySlots.Services.Abstract;
     using LuckySlots.Services.Contracts;
     using LuckySlots.Services.Infrastructure.Exceptions;
@@ -13,11 +14,16 @@
 
     public class AccountService : BaseService, IAccountService
     {
-        public AccountService(LuckySlotsDbContext context) : base(context)
+        private readonly ITransactionServices transactionServices;
+        private readonly ICreditCardService creditCardService;
+
+        public AccountService(LuckySlotsDbContext context, ITransactionServices transactionServices, ICreditCardService creditCardService) : base(context)
         {
+            this.transactionServices = transactionServices;
+            this.creditCardService = creditCardService;
         }
 
-        public async Task<decimal> ChargeAccountAsync(string userId, decimal amount)
+        public async Task<decimal> ChargeAccountAsync(string userId, decimal amount,TransactionType type)
         {
             var user = await this.Context.Users
                 .FirstOrDefaultAsync(us => us.Id == userId);
@@ -29,8 +35,19 @@
 
             user.AccountBalance -= amount;
             
-            await this.Context.SaveChangesAsync();
+            string description = "";
+            if (type == TransactionType.Stake)
+            {
+                description = $"Stake on game";
+            }
+            else //check Withdrawal
+            {
 
+            }
+
+            await this.transactionServices.CreateAsync(user.Id, type, amount, description);
+            await this.Context.SaveChangesAsync();
+            
             return user.AccountBalance;
         }
 
@@ -42,16 +59,31 @@
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<decimal> DepositAsync(string userId, decimal amount)
+        public async Task<decimal> DepositAsync(string userId, decimal amount, TransactionType type,string cardId = null)
         {
             var user = await this.Context.Users
                 .FirstOrDefaultAsync(us => us.Id == userId);
             
             user.AccountBalance += amount;
 
-            await this.Context.SaveChangesAsync();
+            string description = "";
+            if (type == TransactionType.Deposit)
+            {
+                var cardNumber = this.creditCardService.GetLastForDigitsOfCardNumberAsync(cardId);
 
+                description = $"Deposit with card {cardNumber}";
+            }
+            else if(type == TransactionType.Win)
+            {
+                description = $"Win on game";
+            }
+            
+            await this.transactionServices.CreateAsync(user.Id, TransactionType.Deposit, amount, description);
+            await this.Context.SaveChangesAsync();
+            
             return user.AccountBalance;
         }
+
+        
     }
 }

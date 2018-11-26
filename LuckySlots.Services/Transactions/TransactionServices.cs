@@ -2,6 +2,7 @@
 {
     using LuckySlots.Data;
     using LuckySlots.Data.Models;
+    using LuckySlots.Infrastructure.Enums;
     using LuckySlots.Services.Abstract;
     using LuckySlots.Services.Contracts;
     using Microsoft.AspNetCore.Identity;
@@ -22,7 +23,7 @@
             this.userManager = userManager;
         }
 
-        public async Task<Transaction> CreateAsync(string userId, string type, decimal amount, string description)
+        public async Task<Transaction> CreateAsync(string userId, TransactionType type, decimal amount, string description)
         {
             var user = await this.userManager.FindByIdAsync(userId);
 
@@ -35,7 +36,7 @@
             {
                 Date = DateTime.Now,
                 User = user,
-                Type = type,
+                Type = type.ToString(),
                 Amount = amount,
                 Description = description
             };

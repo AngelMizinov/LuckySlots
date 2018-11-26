@@ -10,6 +10,7 @@
     using LuckySlots.Services.Admin;
     using LuckySlots.Services.Contracts;
     using LuckySlots.Services.CreditCard;
+    using LuckySlots.Services.Transactions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -55,6 +56,7 @@
             // Register services
             services.AddScoped<IAccountService,AccountService>();
             services.AddScoped<ICreditCardService, CreditCardService>();
+            services.AddScoped<ITransactionServices, TransactionServices>();
 
             services.AddMvc(options =>
             {

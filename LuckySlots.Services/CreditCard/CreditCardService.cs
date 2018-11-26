@@ -32,6 +32,16 @@
               .FirstOrDefaultAsync();
         }
 
+        public async Task<string> GetLastForDigitsOfCardNumberAsync(string id)
+        {
+            var number = await this.Context.CreditCards
+                .Where(card => card.Id == new Guid(id))
+                .Select(card => card.Number)
+                .FirstOrDefaultAsync();
+
+            return number.Substring(number.Length - 4);
+        }
+
         public async Task<CreditCard> AddAsync(string number, int cvv, string userId, DateTime expiry)
         {
             CreditCard card = await this.GetCreditCardByNumberAsync(number);

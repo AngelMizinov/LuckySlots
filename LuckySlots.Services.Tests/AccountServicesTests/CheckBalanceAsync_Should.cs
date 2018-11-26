@@ -1,8 +1,10 @@
 ﻿using LuckySlots.Data;
 using LuckySlots.Data.Models;
 using LuckySlots.Services.Account;
+using LuckySlots.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,6 +26,10 @@ namespace LuckySlots.Services.Tests.AccountServicesTests
         {
             var options = GetDbContextOptions("Return_AccountBalance");
 
+            var mockTransactionServices = new Mock<ITransactionServices>();
+            var mockCreditCardServices = new Mock<ICreditCardService>();
+
+
             var user = new User()
             {
                 Id = "1",
@@ -37,7 +43,7 @@ namespace LuckySlots.Services.Tests.AccountServicesTests
                 await actContext.Users.AddAsync(user);
                 await actContext.SaveChangesAsync();
 
-                var accountService = new AccountService(actContext);
+                var accountService = new AccountService(actContext, mockTransactionServices.Object, mockCreditCardServices.Object);
                 expectedBalance = await accountService.CheckBalanceAsync(user.Id);
             }
 

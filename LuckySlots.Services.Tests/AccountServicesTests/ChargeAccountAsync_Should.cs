@@ -2,7 +2,9 @@
 {
     using LuckySlots.Data;
     using LuckySlots.Data.Models;
+    using LuckySlots.Infrastructure.Enums;
     using LuckySlots.Services.Account;
+    using LuckySlots.Services.Contracts;
     using LuckySlots.Services.Infrastructure.Exceptions;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -25,6 +27,9 @@
         {
             var options = GetDbContextOptions("ReturnNewBalance_When_AccountIsCharged");
 
+            var mockTransactionServices = new Mock<ITransactionServices>();
+            var mockCreditCardServices = new Mock<ICreditCardService>();
+
             var user = new User()
             {
                 Id = "1",
@@ -38,8 +43,8 @@
                 await actContext.Users.AddAsync(user);
                 await actContext.SaveChangesAsync();
 
-                var accountService = new AccountService(actContext);
-                expectedBalance = await accountService.ChargeAccountAsync(user.Id, 200);
+                var accountService = new AccountService(actContext,mockTransactionServices.Object,mockCreditCardServices.Object);
+                expectedBalance = await accountService.ChargeAccountAsync(user.Id, 200, TransactionType.Stake);
             }
 
             var newBalance = user.AccountBalance;
@@ -55,6 +60,9 @@
         {
             var options = GetDbContextOptions("ThrowsArgumentException_When_UserBalanceIsNotEnough_ForCharging");
 
+            var mockTransactionServices = new Mock<ITransactionServices>();
+            var mockCreditCardServices = new Mock<ICreditCardService>();
+            
             var user = new User()
             {
                 Id = "1",
@@ -69,10 +77,10 @@
 
             using (var assertContext = new LuckySlotsDbContext(options))
             {
-                var accountService = new AccountService(assertContext);
+                var accountService = new AccountService(assertContext, mockTransactionServices.Object, mockCreditCardServices.Object);
 
                 await Assert.ThrowsExceptionAsync<InsufficientFundsException>(() =>
-                accountService.ChargeAccountAsync(user.Id, 500));
+                accountService.ChargeAccountAsync(user.Id, 500,TransactionType.Stake));
             }
         }
     }
