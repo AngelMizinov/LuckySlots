@@ -6,6 +6,7 @@
     using LuckySlots.Infrastructure;
     using LuckySlots.Infrastructure.HttpClient;
     using LuckySlots.Infrastructure.Providers;
+    using LuckySlots.Services.Account;
     using LuckySlots.Services.Admin;
     using LuckySlots.Services.Contracts;
     using Microsoft.AspNetCore.Builder;
@@ -49,6 +50,8 @@
             services.AddSingleton<IJsonParser, JsonParser>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddTransient<IUserManagementServices, UserManagementServices>();
+
+            services.AddScoped<IAccountService,AccountService>();
 
             services.AddMvc(options =>
             {

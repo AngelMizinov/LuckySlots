@@ -14,6 +14,9 @@
         [MaxLength(50)]
         public string LastName { get; set; }
 
+        [Range(typeof(decimal),"0","1000000")]
+        public decimal AccountBalance { get; set; }
+
         [DataType(DataType.Date)]
         public DateTime DateBirth { get; set; }
 
