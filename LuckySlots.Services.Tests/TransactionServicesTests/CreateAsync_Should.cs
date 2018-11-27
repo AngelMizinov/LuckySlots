@@ -2,6 +2,7 @@
 {
     using LuckySlots.Data;
     using LuckySlots.Data.Models;
+    using LuckySlots.Infrastructure.Enums;
     using LuckySlots.Services.Transactions;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -36,7 +37,7 @@
                 await arrangeDbContext.SaveChangesAsync();
 
                 var sut = new TransactionServices(arrangeDbContext, userManager);
-                await sut.CreateAsync(userId, "ValidType", 100m, "Valid desctiption");
+                await sut.CreateAsync(userId, TransactionType.Deposit, 100m, "Valid desctiption");
             }
 
             // Assert

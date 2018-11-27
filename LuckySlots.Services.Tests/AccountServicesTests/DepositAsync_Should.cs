@@ -54,5 +54,36 @@
                 Assert.AreEqual(expectedBalance, newBalance);
             }
         }
+
+        [TestMethod]
+        public async Task CallCreateTransaction_When_IsExecuted()
+        {
+            var options = GetDbContextOptions("CallCreateTransaction_When_IsExecuted");
+
+            var mockTransactionServices = new Mock<ITransactionServices>();
+            var mockCreditCardServices = new Mock<ICreditCardService>();
+
+            var user = new User()
+            {
+                Id = "1",
+                AccountBalance = 300
+            };
+
+            using (var actContext = new LuckySlotsDbContext(options))
+            {
+                await actContext.Users.AddAsync(user);
+                await actContext.SaveChangesAsync();
+            }
+
+            using (var assertContext = new LuckySlotsDbContext(options))
+            {
+                var accountService = new AccountService(assertContext, mockTransactionServices.Object, mockCreditCardServices.Object);
+                var expectedBalance = await accountService.ChargeAccountAsync(user.Id, 200, TransactionType.Stake);
+
+                mockTransactionServices.Verify(transServices => transServices.CreateAsync(It.IsAny<string>(), It.IsAny<TransactionType>(),
+                    It.IsAny<decimal>(), It.IsAny<string>()), Times.Once());
+            }
+        }
+        
     }
 }
