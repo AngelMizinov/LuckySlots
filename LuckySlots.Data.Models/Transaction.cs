@@ -15,7 +15,7 @@
         [RegularExpression("[a-zA-Z")]
         public string Type { get; set; }
 
-        [DataType(DataType.Currency)]
+        [Range(typeof(decimal), "0", "1000000")]
         public decimal Amount { get; set; }
 
         [MaxLength(500)]

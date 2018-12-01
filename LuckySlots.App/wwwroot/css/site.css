@@ -19,3 +19,7 @@ body {
         display: none;
     }
 }
+
+.card-group {
+    padding-top: 160px
+}

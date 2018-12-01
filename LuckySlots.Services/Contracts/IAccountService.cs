@@ -6,7 +6,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public interface IAccountService
+    public interface IAccountService 
     {
         Task<decimal> DepositAsync(string userId, decimal amount, TransactionType type, string cardId = null);
 
