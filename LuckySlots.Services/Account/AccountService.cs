@@ -59,6 +59,14 @@
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<string> CheckCurrencyAsync(string userId)
+        {
+            return await this.Context.Users
+                .Where(us => us.Id == userId)
+                .Select(us => us.Currency)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<decimal> DepositAsync(string userId, decimal amount, TransactionType type,string cardId = null)
         {
             var user = await this.Context.Users
@@ -79,7 +87,7 @@
             }
             
             await this.transactionServices.CreateAsync(user.Id, TransactionType.Deposit, amount, description);
-           // await this.Context.SaveChangesAsync();
+            //await this.Context.SaveChangesAsync();
             
             return user.AccountBalance;
         }

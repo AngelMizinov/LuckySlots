@@ -3,11 +3,21 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
+
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right ml-auto">
         <ul class="navbar-nav nav-flex-icons navbar-right ml-auto">
-            <li class="nav-item nav-link waves-effect"><a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="nav-link waves-effect">Hello @UserManager.GetUserName(User)!</a></li>
+            <li class="nav-item nav-link waves-effect">
+                <a title="Manage" class="nav-link waves-effect">
+                    @await Component.InvokeAsync("UserInfo", await UserManager.GetUserAsync(this.User))
+                </a>
+            </li>
+            <li class="nav-item nav-link waves-effect">
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="nav-link waves-effect">
+                    Profile
+                </a>
+            </li>
             <li class="nav-item nav-link waves-effect">
                 <button type="submit" class="btn btn-link nav-link">Logout</button>
             </li>

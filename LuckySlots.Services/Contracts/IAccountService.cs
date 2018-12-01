@@ -12,6 +12,8 @@
 
         Task<decimal> CheckBalanceAsync(string userId);
 
+        Task<string> CheckCurrencyAsync(string userId);
+            
         Task<decimal> ChargeAccountAsync(string userId, decimal amount, TransactionType type);
     }
 }

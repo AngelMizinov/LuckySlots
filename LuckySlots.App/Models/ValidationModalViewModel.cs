@@ -1,12 +1,12 @@
-﻿using LuckySlots.App.Infrastructure.ValidationAttributes;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace LuckySlots.App.Models
+﻿namespace LuckySlots.App.Models
 {
+    using LuckySlots.App.Infrastructure.ValidationAttributes;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     public class ValidationModalViewModel
     {
         //[Required]

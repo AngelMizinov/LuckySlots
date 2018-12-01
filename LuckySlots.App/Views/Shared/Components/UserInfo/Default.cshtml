@@ -1,0 +1,10 @@
+﻿@model UserInfoComponentViewModel
+
+@{
+    ViewData["Title"] = "Default";
+}
+
+Hello @Model.FirstName,
+your balance is: @Math.Round(Model.AccoutBalance,2)@Model.Currency
+
+

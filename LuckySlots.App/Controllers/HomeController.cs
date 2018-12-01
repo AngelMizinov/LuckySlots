@@ -12,6 +12,7 @@
     using LuckySlots.Services.Contracts;
     using Microsoft.AspNetCore.Identity;
     using LuckySlots.Data.Models;
+    using LuckySlots.Infrastructure.Enums;
 
     public class HomeController : Controller
     {
@@ -26,7 +27,16 @@
             this.userManager = userManager;
         }
 
-        public IActionResult Index(ValidationModalViewModel validationModel)
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            this.ViewBag.IsCalledFirstTime = true;
+            this.ViewBag.IsValid = true;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(ValidationModalViewModel validationModel)
         {
             //CHECK API
             //var result = await this.parser.ExtractExchangeRate("EUR");
@@ -35,13 +45,25 @@
             //GET CURRENT USER
             //var currUser = await this.userManager.GetUserAsync(this.User);
 
+            //JUST TRY DEPOSIT
+            //await this.accountService.DepositAsync(currUser.Id, 300, TransactionType.Deposit);
+
+            this.ViewBag.IsCalledFirstTime = false;   
+            this.ViewBag.IsValid = true;
+
             if (!this.ModelState.IsValid)
             {
                 this.ViewBag.IsValid = false;
                 return View();
             }
 
-            this.ViewBag.IsValid = true;
+            if(validationModel.Year > DateTime.Now.Year - 18)
+            {
+                this.TempData["Permission"] = "You must be 18 years old to continue.";
+                this.ViewBag.IsValid = false;
+                return View();
+            }
+            
             return View();
         }
 
