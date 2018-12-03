@@ -71,15 +71,18 @@
         {
             ViewData["Message"] = "Your application description page.";
 
-            return View();
+            return PartialView();
         }
 
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
 
-            return View();
+            return PartialView();
         }
+
+        public IActionResult Profile()
+            => this.PartialView();
 
         public IActionResult Privacy()
         {

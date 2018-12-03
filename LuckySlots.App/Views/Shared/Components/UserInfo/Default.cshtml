@@ -4,7 +4,5 @@
     ViewData["Title"] = "Default";
 }
 
-Hello @Model.FirstName,
-your balance is: @Math.Round(Model.AccoutBalance,2)@Model.Currency
-
-
+@*Hello @Model.FirstName,*@
+$ @Model.Currency @Math.Round(Model.AccoutBalance,2)
