@@ -51,9 +51,9 @@
             services.AddHttpClient<IExchangeRateHttpClient, ExchangeRateHttpClient>();
             services.AddSingleton<IJsonParser, JsonParser>();
             services.AddSingleton<IEmailSender, EmailSender>();
-            services.AddTransient<IUserManagementServices, UserManagementServices>();
 
             // Register services
+            services.AddTransient<IUserManagementServices, UserManagementServices>();
             services.AddScoped<IAccountService,AccountService>();
             services.AddScoped<ICreditCardService, CreditCardService>();
             services.AddScoped<ITransactionServices, TransactionServices>();

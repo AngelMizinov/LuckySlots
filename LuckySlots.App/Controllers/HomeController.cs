@@ -13,18 +13,21 @@
     using Microsoft.AspNetCore.Identity;
     using LuckySlots.Data.Models;
     using LuckySlots.Infrastructure.Enums;
+    using Microsoft.AspNetCore.Authorization;
 
     public class HomeController : Controller
     {
         private readonly IJsonParser parser;
         private readonly IAccountService accountService;
         private readonly UserManager<User> userManager;
+        private readonly ICreditCardService creditCardService;
 
-        public HomeController(IJsonParser parser, IAccountService accountService, UserManager<User> userManager)
+        public HomeController(IJsonParser parser, IAccountService accountService, UserManager<User> userManager, ICreditCardService creditCardService)
         {
             this.parser = parser;
             this.accountService = accountService;
             this.userManager = userManager;
+            this.creditCardService = creditCardService;
         }
 
         [HttpGet]
@@ -67,9 +70,29 @@
             return View();
         }
 
+		[Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Deposit()
+        {
+            ViewData["Message"] = "Your application deposit page.";
+            
+
+
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Deposit(DepositViewModel model)
+        {
+            ViewData["Message"] = "Your application deposit page.";
+
+            return View();
+        }
+
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            //ViewData["Message"] = "Your application description page.";
 
             return PartialView();
         }

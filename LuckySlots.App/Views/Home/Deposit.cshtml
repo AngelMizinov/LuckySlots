@@ -1,0 +1,46 @@
+﻿@model DepositViewModel
+
+@{
+    ViewData["Title"] = "Deposit";
+}
+
+<div class="col-md-8">
+    <div class="card card-user">
+        <div class="card-header">
+            <h5 class="card-title">Edit Profile</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 pr-1">
+                    @*<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        @foreach (var city in Model.CreditCards)
+                        {
+                            <form asp-controller="Home" asp-action="Deposit" method="post"
+                                  data-ajax="true"
+                                  data-ajax-update="#credit-cards-form"
+                                  data-ajax-complete="onCompleteFunction">
+                                <input type="hidden" asp-for="@Model.CardId" value="@Model.CardId" />
+                                <button type="submit" class="dropdown-item">@Model.CardId</button>
+                            </form>
+                        }
+                    </div>*@
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 pr-1">
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <input type="number" class="form-control" placeholder="0.00" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="update ml-auto mr-auto">
+                    <button type="submit" class="btn btn-primary btn-round">Deposit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
