@@ -30,6 +30,7 @@
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            // TODO: Consider refactoring
             this.ViewBag.IsCalledFirstTime = true;
             this.ViewBag.IsValid = true;
             return View();
@@ -69,18 +70,16 @@
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Deposit()
+        public IActionResult Deposit()
         {
             ViewData["Message"] = "Your application deposit page.";
-
-
 
             return View();
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Deposit(DepositViewModel model)
+        public IActionResult Deposit(DepositViewModel model)
         {
             ViewData["Message"] = "Your application deposit page.";
 
@@ -89,21 +88,43 @@
 
         public IActionResult About()
         {
-            return PartialView();
+            if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
+            {
+                return PartialView();
+            }
+
+            return View();
         }
 
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
 
-            return PartialView();
+            if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
+            {
+                return PartialView();
+            }
+
+            return View();
         }
 
         public IActionResult Profile()
-            => this.PartialView();
+        {
+            if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
+            {
+                return PartialView();
+            }
+
+            return View();
+        }
 
         public IActionResult Privacy()
         {
+            if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
+            {
+                return PartialView();
+            }
+
             return View();
         }
 

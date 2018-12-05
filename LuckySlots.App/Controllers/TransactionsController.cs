@@ -22,7 +22,12 @@
 
         public IActionResult Transactions()
         {
-            return PartialView();
+            if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
+            {
+                return PartialView();
+            }
+
+            return View();
         }
 
         // CRUD Actions below

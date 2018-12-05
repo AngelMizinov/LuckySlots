@@ -15,6 +15,10 @@
     .Filterable(f => f.Mode(GridFilterMode.Menu))
     .Groupable()
     .Sortable()
+    .ToolBar(tool =>
+    {
+        tool.Pdf().Text("Create PDF");
+    })
     .DataSource(data =>
     {
         data
