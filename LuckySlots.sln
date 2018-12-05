@@ -15,9 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuckySlots.Services", "Luck
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{45AC1A98-0CD1-47A7-A601-74DD6D4AD4CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckySlots.App.Tests", "LuckySlots.App.Tests\LuckySlots.App.Tests.csproj", "{3709E76E-3E97-44EE-8089-56DA13F31610}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuckySlots.App.Tests", "LuckySlots.App.Tests\LuckySlots.App.Tests.csproj", "{3709E76E-3E97-44EE-8089-56DA13F31610}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckySlots.Services.Tests", "LuckySlots.Services.Tests\LuckySlots.Services.Tests.csproj", "{31B29141-DE90-48B0-A91D-D09A0239459A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuckySlots.Services.Tests", "LuckySlots.Services.Tests\LuckySlots.Services.Tests.csproj", "{31B29141-DE90-48B0-A91D-D09A0239459A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

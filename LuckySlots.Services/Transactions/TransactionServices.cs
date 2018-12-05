@@ -7,7 +7,6 @@
     using LuckySlots.Services.Contracts;
     using Microsoft.AspNetCore.Identity;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -48,14 +47,13 @@
             return transaction;
         }
 
-        public async Task<ICollection<Transaction>> GetAllAsync()
-            => await Task.Run(() => this.Context.Transactions.ToList());
+        public async Task<IQueryable<Transaction>> GetAllAsync()
+            => await Task.Run(() => this.Context.Transactions);
 
 
-        public async Task<ICollection<Transaction>> GetAllByUserIdAsync(string id)
+        public async Task<IQueryable<Transaction>> GetAllByUserIdAsync(string id)
             => await Task.Run(() => this.Context
                 .Transactions
-                .Where(t => t.UserId == id)
-                .ToList());
+                .Where(t => t.UserId == id));
     }
 }

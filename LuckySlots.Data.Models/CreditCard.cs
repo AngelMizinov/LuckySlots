@@ -7,6 +7,7 @@
     public class CreditCard : IAuditable, IDeletable
     {
         [Key]
+        [ScaffoldColumn(false)]
         public Guid Id { get; set; }
 
         [DataType(DataType.CreditCard)]
@@ -14,6 +15,7 @@
 
         public int CVV { get; set; }
 
+        [ScaffoldColumn(false)]
         public string UserId { get; set; }
 
         public User User { get; set; }
