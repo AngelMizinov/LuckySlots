@@ -8,6 +8,9 @@
     // Add profile data for application users by adding properties to the User class
     public class User : IdentityUser
     {
+        //[ScaffoldColumn(false)]
+        //public override Guid Id { get => base.Id; set => base.Id = value; }
+
         [MaxLength(50)]
         public string FirstName { get; set; }
 

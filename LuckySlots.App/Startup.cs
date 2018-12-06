@@ -20,6 +20,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Newtonsoft.Json.Serialization;
 
     public class Startup
     {
@@ -54,7 +55,7 @@
 
             // Register services
             services.AddTransient<IUserManagementServices, UserManagementServices>();
-            services.AddScoped<IAccountService,AccountService>();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ICreditCardService, CreditCardService>();
             services.AddScoped<ITransactionServices, TransactionServices>();
 
@@ -69,7 +70,10 @@
                 options.AllowAreas = true;
                 options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
                 options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
-            });
+            })
+            .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
+            services.AddKendo();
 
             services.ConfigureApplicationCookie(options =>
             {

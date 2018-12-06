@@ -9,6 +9,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" PrivateAssets="All" />
+    <PackageReference Include="Telerik.UI.for.AspNet.Core.Trial" Version="2018.3.1017" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +22,8 @@
     <Folder Include="Areas\Support\Controllers\" />
     <Folder Include="Areas\Support\Models\" />
     <Folder Include="Areas\Support\Views\" />
+    <Folder Include="wwwroot\lib\kendo-ui\js\" />
+    <Folder Include="wwwroot\lib\kendo-ui\styles\" />
   </ItemGroup>
 
   <ItemGroup>
