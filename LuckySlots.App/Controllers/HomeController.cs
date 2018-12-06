@@ -66,27 +66,8 @@
                 this.ViewBag.IsValid = false;
                 return View();
             }
+
             
-            return View();
-        }
-
-		[Authorize]
-        [HttpGet]
-        public async Task<IActionResult> Deposit()
-        {
-            ViewData["Message"] = "Your application deposit page.";
-            
-
-
-            return View();
-        }
-
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> Deposit(DepositViewModel model)
-        {
-            ViewData["Message"] = "Your application deposit page.";
-
             return View();
         }
 

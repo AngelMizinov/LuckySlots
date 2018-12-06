@@ -1,0 +1,53 @@
+﻿@model CreditCardViewModel
+
+<!-- Modal -->
+<div class="modal fade" id="add-card-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New Card</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Account" asp-action="AddCreditCard" method="post">
+
+                    <div class="row">
+                        <div class="col-md-6 pr-1">
+                            <div class="form-group">
+                                <label asp-for="@Model.Number" class="control-label">Number</label>
+                                <input asp-for="@Model.Number" class="cc-number form-control" placeholder="---- ---- ---- ----" />
+                                <span asp-validation-for="@Model.Number" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 pr-1">
+                            <div class="form-group">
+                                <label asp-for="@Model.CVV" class="control-label">CVV</label>
+                                <input asp-for="@Model.CVV" maxlength="4" type="tel" placeholder="----" class="cc-cvv form-control" />
+                                <span asp-validation-for="@Model.CVV" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 pr-1">
+                            <div class="form-group">
+                                <label asp-for="@Model.Expiry" class="control-label">Expiry</label>
+                                <input asp-for="@Model.Expiry" class="cc-expires form-control" type="text" pattern="\d*" maxlength="9" placeholder="MM / YYYY" />
+                                <span asp-validation-for="@Model.Expiry" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+

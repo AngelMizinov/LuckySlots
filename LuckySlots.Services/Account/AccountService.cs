@@ -77,18 +77,20 @@
             string description = "";
             if (type == TransactionType.Deposit)
             {
-                var cardNumber = this.creditCardService.GetLastForDigitsOfCardNumberAsync(cardId);
+                var cardNumber = await this.creditCardService.GetLastForDigitsOfCardNumberAsync(cardId);
 
-                description = $"Deposit with card {cardNumber}";
+                description = $"Deposit with card **** **** **** {cardNumber}";
             }
+            // TODO: game type in description
             else if(type == TransactionType.Win)
             {
                 description = $"Win on game";
             }
-            
+
+            // TODO: call 2 times SaveChangesAsync() 
             await this.transactionServices.CreateAsync(user.Id, TransactionType.Deposit, amount, description);
-            //await this.Context.SaveChangesAsync();
-            
+            await this.Context.SaveChangesAsync();
+
             return user.AccountBalance;
         }
 

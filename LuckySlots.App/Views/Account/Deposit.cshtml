@@ -1,0 +1,77 @@
+﻿@model DepositViewModel
+
+@{
+    ViewData["Title"] = "Deposit";
+}
+
+<div class="col-md-8">
+    <div class="card card-user">
+        <div class="card-header">
+            <h3 class="card-title">Make Deposit</h3>
+        </div>
+        <div class="card-body">
+            <div class="">
+                <div class="update">
+                    <button type="submit" data-toggle="modal" data-target="#add-card-modal" class="btn btn-primary btn-round">New Card</button>
+                </div>
+            </div>
+            <form asp-controller="Account" asp-action="Deposit" method="post">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="@Model.CardId">Card Number</label>
+                            <br />
+                            <select asp-for="@Model.CardId" placeholder="Select your card" asp-items="Model.CreditCards" class="form-control">
+                            
+                            </select>
+                            <span asp-validation-for="@Model.CardId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 pr-1">
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <label asp-for="@Model.Amount" class="control-label">Number</label>
+                            <input asp-for="@Model.Amount" class="form-control" />
+                            <span asp-validation-for="@Model.Amount" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="update col-md-1">
+                        <button id="submit-button" type="submit" class="btn btn-primary btn-round">Deposit</button>
+                    </div>
+                </div>
+            </form>
+
+            <partial name="_AddCardPartial" model="@Model.CreditCardModel" />
+
+            @if (TempData["Error-Message"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @TempData["Error-Message"]
+                </div>
+            }
+            @if (TempData["Success-Message"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["Success-Message"]
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{ 
+    <script>
+        $(function () {
+            // Set up formatting for Credit Card fields
+            $('.cc-number').formatCardNumber();
+            $('.cc-cvc').formatCardCVC();
+            $('.cc-expires').formatCardExpiry();
+        });
+        
+    </script>
+}
