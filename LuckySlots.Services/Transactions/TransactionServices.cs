@@ -5,6 +5,7 @@
     using LuckySlots.Infrastructure.Enums;
     using LuckySlots.Services.Abstract;
     using LuckySlots.Services.Contracts;
+    using LuckySlots.Services.Infrastructure.Exceptions;
     using Microsoft.AspNetCore.Identity;
     using System;
     using System.Linq;
@@ -28,7 +29,7 @@
 
             if (user == null)
             {
-                throw new ArgumentNullException();
+                throw new UserDoesntExistsException("User does not exists!");
             }
 
             var transaction = new Transaction

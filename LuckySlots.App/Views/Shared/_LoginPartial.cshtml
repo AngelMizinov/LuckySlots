@@ -9,7 +9,11 @@
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right ml-auto">
     <ul class="navbar-nav nav-flex-icons navbar-right ml-auto">
         <li class="nav-item nav-link waves-effect">
+<<<<<<< HEAD
+            <a asp-area="" asp-controller="Account" asp-action="Deposit" class="btn btn-outline-success">
+=======
             <a asp-area="" asp-controller="Home" asp-action="Deposit" class="btn btn-sm btn-outline-success">
+>>>>>>> 395f7dd623825bf47a0f92918c01d14c510d4fb0
                 @await Component.InvokeAsync("UserInfo", await UserManager.GetUserAsync(this.User))
             </a>
         </li>

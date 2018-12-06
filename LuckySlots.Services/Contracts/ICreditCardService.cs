@@ -14,6 +14,8 @@
 
         Task<ICollection<CreditCard>> GetAllByUserIdAsync(string userId);
 
+        Task<ICollection<string>> GetAllCardsNumbersByUserId(string userId);
+            
         Task DeleteAsync(string id);
 
         Task<string> GetLastForDigitsOfCardNumberAsync(string id);

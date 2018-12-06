@@ -87,6 +87,16 @@
             await this.Context.SaveChangesAsync();
         }
 
+        public async Task<ICollection<string>> GetAllCardsNumbersByUserId(string userId)
+        {
+            var numbers = await this.Context.CreditCards
+                .Where(card => card.UserId == userId)
+                .Select(card => card.Number)
+                .ToListAsync();
+
+            return numbers.Select(num => num.Substring(num.Length - 4)).ToList();
+        }
+
         public async Task<ICollection<CreditCard>> GetAllByUserIdAsync(string userId)
         {
             var cards = await this.Context.CreditCards
