@@ -74,7 +74,12 @@
         {
             ViewData["Message"] = "Your application deposit page.";
 
-            return View();
+            return RedirectToAction(nameof(DepositSuccessful));
+        }
+
+        public IActionResult DepositSuccessful()
+        {
+            return RedirectToAction(nameof(Deposit));
         }
 
         [Authorize]
