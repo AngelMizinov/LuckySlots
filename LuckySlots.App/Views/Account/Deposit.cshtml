@@ -21,9 +21,7 @@
                         <div class="form-group">
                             <label asp-for="@Model.CardId">Card Number</label>
                             <br />
-                            <select asp-for="@Model.CardId" placeholder="Select your card" asp-items="Model.CreditCards" class="form-control">
-                            
-                            </select>
+                            <select asp-for="@Model.CardId" placeholder="Select your card" asp-items="Model.CreditCards" class="form-control"></select>
                             <span asp-validation-for="@Model.CardId" class="text-danger"></span>
                         </div>
                     </div>
@@ -47,24 +45,16 @@
 
             <partial name="_AddCardPartial" model="@Model.CreditCardModel" />
 
-            @if (TempData["Error-Message"] != null)
-            {
-                <div class="alert alert-danger" role="alert">
-                    @TempData["Error-Message"]
-                </div>
-            }
-            @if (TempData["Success-Message"] != null)
-            {
-                <div class="alert alert-success" role="alert">
-                    @TempData["Success-Message"]
-                </div>
-            }
+            <div id="deposit-success-message" class="alert alert-success close" role="alert" style="display:none">
+                @TempData["Success-Message"]
+            </div>
 
         </div>
+
     </div>
 </div>
 
-@section Scripts{ 
+@section Scripts{
     <script>
         $(function () {
             // Set up formatting for Credit Card fields
@@ -72,6 +62,27 @@
             $('.cc-cvc').formatCardCVC();
             $('.cc-expires').formatCardExpiry();
         });
+
+        //$('#add-card-button').click(function (data) {
+        //    $('#deposit-success-message').show();
+        //    $('#deposit-success-message').fadeOut(10000);
+        //});
+
+        $('#card-input-form').card({
+            // a selector or DOM element for the container
+            // where you want the card to appear
+            container: '.card-wrapper', // *required*
+
+            formSelectors: {
+                numberInput: '#card-number-input', 
+                expiryInput: '#card-expiry-input', 
+                cvcInput: '#card-cvv-input',
+            }
+
+            // all of the other options from above
+        }
+        );
         
     </script>
+
 }
