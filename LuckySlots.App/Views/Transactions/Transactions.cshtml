@@ -11,7 +11,7 @@
         columns.Bound(m => m.Description);
     })
     .HtmlAttributes(new { @class = "bg-dark text-warning" })
-    .Pageable(page => page.PageSizes(new[] { 5, 10, 20 }))
+    .Pageable(page => page.PageSizes(new[] { 5, 10, 20, 25}))
     .Filterable(f => f.Mode(GridFilterMode.Menu))
     .Groupable()
     .Sortable()
