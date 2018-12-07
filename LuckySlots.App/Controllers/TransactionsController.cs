@@ -38,5 +38,13 @@
 
             return Json(transactions.ToDataSourceResult(request));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ReadUserTransactions([DataSourceRequest] DataSourceRequest request,string userId)
+        {
+            var transactions = await this.transactionServices.GetAllByUserIdAsync(userId);
+
+            return Json(transactions.ToDataSourceResult(request));
+        }
     }
 }

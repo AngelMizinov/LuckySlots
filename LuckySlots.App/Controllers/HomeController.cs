@@ -1,5 +1,6 @@
 ﻿namespace LuckySlots.App.Controllers
 {
+    using Kendo.Mvc.UI;
     using LuckySlots.App.Models;
     using LuckySlots.Data.Models;
     using LuckySlots.Infrastructure.Providers;
@@ -8,27 +9,32 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Diagnostics;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class HomeController : Controller
     {
         private readonly IJsonParser parser;
-        private readonly IAccountService accountService;
         private readonly UserManager<User> userManager;
         private readonly ICreditCardService creditCardService;
+        private readonly ITransactionServices transactionServices;
+        private readonly IUserManagementServices userManagementServices;
 
-        public HomeController(IJsonParser parser, IAccountService accountService, UserManager<User> userManager, ICreditCardService creditCardService)
+        public HomeController(IJsonParser parser,UserManager<User> userManager,ICreditCardService creditCardService,
+            ITransactionServices transactionServices, IUserManagementServices userManagementServices)
         {
             this.parser = parser;
-            this.accountService = accountService;
             this.userManager = userManager;
             this.creditCardService = creditCardService;
+            this.transactionServices = transactionServices;
+            this.userManagementServices = userManagementServices;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             // TODO: Consider refactoring
             this.ViewBag.IsCalledFirstTime = true;
@@ -114,16 +120,7 @@
             return View();
         }
 
-        public IActionResult Profile()
-        {
-            if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
-            {
-                return PartialView();
-            }
-
-            return View();
-        }
-
+        
         public IActionResult Privacy()
         {
             if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
