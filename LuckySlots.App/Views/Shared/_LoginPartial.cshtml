@@ -9,12 +9,12 @@
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right ml-auto">
     <ul class="navbar-nav nav-flex-icons navbar-right ml-auto">
         <li class="nav-item nav-link waves-effect">
-            <a asp-area="" asp-controller="Home" asp-action="Deposit" id="balance-button" class="btn btn-sm btn-outline-success">
+            <a asp-area="" asp-controller="Account" asp-action="Deposit" class="btn btn-sm btn-outline-success">
                 @await Component.InvokeAsync("UserInfo", await UserManager.GetUserAsync(this.User))
             </a>
         </li>
         <li class="nav-item">
-            <a asp-area="Identity" asp-page="/Account/Manage/Index" class="nav-link waves-effect">
+            <a asp-area="" asp-controller="Profile" asp-action="Edit" class="nav-link waves-effect">
                 Profile
             </a>
         </li>

@@ -91,7 +91,6 @@
 
             if (!ModelState.IsValid)
             {
-                //return RedirectToAction("Deposit");
                 return PartialView("_AddCardPartial");
             }
 
@@ -113,6 +112,20 @@
             return RedirectToAction("Deposit", "Account");
         }
 
+        [AcceptVerbs("Get","Post")]
+        public IActionResult ValidateDateExpiry(DateTime expiry)
+        {
+            if(expiry.Year < DateTime.Now.Year)
+            {
+                return Json("Invalid date expiry.");
+            }
+            else if(expiry.Year == DateTime.Now.Year && expiry.Month < DateTime.Now.Month)
+            {
+                return Json("Invalid date expiry.");
+            }
+
+            return Json(true);
+        } 
 
 
     }

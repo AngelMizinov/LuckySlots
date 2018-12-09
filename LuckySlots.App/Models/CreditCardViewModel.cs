@@ -1,5 +1,6 @@
 ﻿namespace LuckySlots.App.Models
 {
+    using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -21,8 +22,9 @@
         public string CVV { get; set; }
 
         [Required]
+        [Remote(action:"ValidateDateExpiry",controller:"Account")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:MM/yy}")]
+        [DisplayFormat(DataFormatString = "{0:MM/yyyy}")]
         public DateTime Expiry { get; set; }
 
         //[Required]
