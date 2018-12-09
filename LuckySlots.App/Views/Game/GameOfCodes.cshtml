@@ -1,0 +1,134 @@
+﻿
+@{
+    ViewData["Title"] = "GameOfCodes";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card text-white bg-dark">
+                <div class="card-header">
+                    Game of Codes
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <canvas style="background-color: #343a40"></canvas>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="stake-input">Stake: </label>
+                            <input id="stake-input" type="text" class="form-control" value="10" />
+                            <button id="spin-button" class="btn btn-primary form-control">Spin</button>
+                            @*<div class="row">
+                                <div class="col-md-6"><h6>Balance</h6></div>
+                                <div class="col-md-6"><h6>$ 1,000</h6></div>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $('document').ready(function () {
+            let canvas = document.querySelector('canvas')
+            let canvasHeight = 400
+            let canvasWidth = 300
+            let imageSize = 100
+
+            canvas.height = canvasHeight
+            canvas.width = canvasWidth
+            let ctx = canvas.getContext('2d')
+
+            let imageCount = 0
+
+            function waitForImagesToLoad() {
+                imageCount++
+                console.log(imageCount)
+                if (imageCount == 4) {
+                    alert('game ready')
+                } else {
+                    return
+                }
+            }
+
+            let haskell = new Image()
+            haskell.src = '../images/games/game-of-codes/haskell.png'
+
+            let csharp = new Image()
+            csharp.src = '../images/games/game-of-codes/csharp.svg'
+
+            let javascript = new Image()
+            javascript.src = '../images/games/game-of-codes/javascript.png'
+
+            let wildcard = new Image()
+            wildcard.src = '../images/games/game-of-codes/wildcard.png'
+
+            $('#spin-button').on('click', function () {
+                $.ajax({
+                    method: 'POST',
+                    url: '/game/getgame',
+                    data: {
+                        gameName: 'gameofcodes',
+                        stake: $('#stake-input').val()
+                    },
+                    dataType: 'json'
+                }).done(function (result) {
+                    drawGame(result)
+                })
+            })
+
+            haskell.onload = function () {
+                waitForImagesToLoad()
+            }
+
+            csharp.onload = function () {
+                waitForImagesToLoad()
+            }
+
+            javascript.onload = function () {
+                waitForImagesToLoad()
+            }
+
+            wildcard.onload = function () {
+                waitForImagesToLoad()
+            }
+
+            function drawGame(data) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                for (let i = 0; i < 3; i++) {
+                    for (let j = 0; j < 4; j++) {
+                        let currentImage
+
+                        if (data.GameGrid[j][i] == "apple") {
+                            currentImage = haskell
+                        } else if (data.GameGrid[j][i] == "banana") {
+                            currentImage = csharp
+                        } else if (data.GameGrid[j][i] == "pineapple") {
+                            currentImage = javascript
+                        } else {
+                            currentImage = wildcard
+                        }
+
+                        ctx.drawImage(currentImage, i * 100, j * 100, imageSize, imageSize)
+                    }
+                }
+
+                for (let i = 0; i < data.WinningRows.length; i++) {
+                    let currentRow = data.WinningRows[i]
+                    ctx.strokeStyle = 'red'
+                    ctx.lineWidth = 20
+                    ctx.beginPath()
+                    ctx.moveTo(i, currentRow * imageSize + 50)
+                    ctx.lineTo(300, currentRow * imageSize + 50)
+                    ctx.stroke()
+                }
+
+                alert(`You win: ${data.Winnings}`)
+            }
+        })
+    </script>
+}

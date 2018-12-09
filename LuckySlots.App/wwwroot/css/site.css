@@ -23,3 +23,7 @@ body {
 #games-container{
     padding-top: 70px
 }
+
+#balance-button {
+    margin: 0;
+}

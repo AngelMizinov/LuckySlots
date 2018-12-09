@@ -9,6 +9,7 @@
     using Moq;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     [TestClass]
@@ -47,7 +48,7 @@
                 var expected = 10;
                 var result = await sut.GetAllAsync();
 
-                Assert.IsTrue(expected == result.Count);
+                Assert.IsTrue(expected == result.Count());
             }
         }
 

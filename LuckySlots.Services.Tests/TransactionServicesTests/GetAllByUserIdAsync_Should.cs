@@ -9,6 +9,7 @@
     using Moq;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     [TestClass]
@@ -51,7 +52,7 @@
                 var expected = 5;
                 var result = await sut.GetAllByUserIdAsync(correctUserId.ToString());
 
-                Assert.IsTrue(expected == result.Count);
+                Assert.IsTrue(expected == result.Count());
             }
         }
 
@@ -89,7 +90,7 @@
                 var exptected = 0;
                 var result = await sut.GetAllByUserIdAsync(nonExistingUserId.ToString());
 
-                Assert.IsTrue(exptected == result.Count);
+                Assert.IsTrue(exptected == result.Count());
             }
         }
 

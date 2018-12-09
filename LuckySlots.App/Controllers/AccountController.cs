@@ -32,11 +32,6 @@
         [HttpGet]
         public async Task<IActionResult> Deposit()
         {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-
             var currUser = await this.userManager.GetUserAsync(this.User);
             
             var cards = await this.creditCardService.GetAllByUserIdAsync(currUser.Id);

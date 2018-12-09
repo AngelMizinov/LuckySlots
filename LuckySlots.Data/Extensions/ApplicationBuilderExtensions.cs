@@ -38,8 +38,8 @@
                     .ServiceProvider
                     .GetRequiredService<RoleManager<IdentityRole>>();
 
-                SeedRole(roleManager, GlobalConstatnts.AdministratorRoleName);
-                SeedRole(roleManager, GlobalConstatnts.SupportRoleName);
+                SeedRole(roleManager, GlobalConstants.AdministratorRoleName);
+                SeedRole(roleManager, GlobalConstants.SupportRoleName);
             }
 
             return app;
@@ -63,9 +63,9 @@
                 SeedAccount(
                     userManager,
                     roleManager,
-                    GlobalConstatnts.AdministratorRoleName,
-                    GlobalConstatnts.AdministratorEmail,
-                    GlobalConstatnts.AdministratorPassword);
+                    GlobalConstants.AdministratorRoleName,
+                    GlobalConstants.AdministratorEmail,
+                    GlobalConstants.AdministratorPassword);
             }
 
             return app;
