@@ -16,6 +16,7 @@
             // Arrange
             var spinResultMoq = new Mock<ISpinResult>();
             var gamefactoryMoq = new Mock<IGameFactory>();
+            var randomizerMoq = new Mock<IRandomizer>();
 
             const int gameGridHeight = 4;
             const int gamegridWidth = 3;
@@ -28,7 +29,7 @@
                 .Returns(game);
 
             // Act
-            var sut = new GameService(spinResultMoq.Object, gamefactoryMoq.Object);
+            var sut = new GameService(spinResultMoq.Object, gamefactoryMoq.Object, randomizerMoq.Object);
             var result = sut.GetGame(validGameName);
 
             // Assert
@@ -47,6 +48,7 @@
             // Arrange
             var spinResultMoq = new Mock<ISpinResult>();
             var gamefactoryMoq = new Mock<IGameFactory>();
+            var randomizerMoq = new Mock<IRandomizer>();
 
             var validGameName = gameName;
             var gameGridHeight = rows;
@@ -60,7 +62,7 @@
 
 
             // Act
-            var sut = new GameService(spinResultMoq.Object, gamefactoryMoq.Object);
+            var sut = new GameService(spinResultMoq.Object, gamefactoryMoq.Object, randomizerMoq.Object);
             var result = sut.GetGame(validGameName);
 
             // Assert
@@ -74,11 +76,12 @@
             // Arrange
             var spinResultMoq = new Mock<ISpinResult>();
             var gamefactoryMoq = new Mock<IGameFactory>();
+            var randomizerMoq = new Mock<IRandomizer>();
 
             var invalidGameName = "somegame";
 
             // Act
-            var sut = new GameService(spinResultMoq.Object, gamefactoryMoq.Object);
+            var sut = new GameService(spinResultMoq.Object, gamefactoryMoq.Object, randomizerMoq.Object);
 
             // Assert
             Assert.ThrowsException<ArgumentException>(() => sut.GetGame(invalidGameName));
