@@ -7,9 +7,6 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     public class ProfileController : Controller
@@ -19,8 +16,8 @@
         private readonly ITransactionServices transactionServices;
         private readonly ICreditCardService creditCardService;
 
-        public ProfileController(UserManager<User> userManager,IUserManagementServices userManagementServices,
-            ITransactionServices transactionServices,ICreditCardService creditCardService)
+        public ProfileController(UserManager<User> userManager, IUserManagementServices userManagementServices,
+            ITransactionServices transactionServices, ICreditCardService creditCardService)
         {
             this.userManager = userManager;
             this.userManagementServices = userManagementServices;
@@ -81,9 +78,6 @@
             }
 
             return RedirectToAction("Edit");
-
         }
-
-
     }
 }

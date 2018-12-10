@@ -10,7 +10,6 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -27,13 +26,13 @@
             this.creditCardService = creditCardService;
             this.accountService = accountService;
         }
-        
+
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Deposit()
         {
             var currUser = await this.userManager.GetUserAsync(this.User);
-            
+
             var cards = await this.creditCardService.GetAllByUserIdAsync(currUser.Id);
 
             DepositViewModel model = new DepositViewModel()
@@ -67,7 +66,7 @@
             }
             catch (UserDoesntExistsException ex)
             {
-				this.TempData["Error-Message"] = ex.Message;
+                this.TempData["Error-Message"] = ex.Message;
                 return View();
             }
 
@@ -112,21 +111,19 @@
             return RedirectToAction("Deposit", "Account");
         }
 
-        [AcceptVerbs("Get","Post")]
+        [AcceptVerbs("Get", "Post")]
         public IActionResult ValidateDateExpiry(DateTime expiry)
         {
-            if(expiry.Year < DateTime.Now.Year)
+            if (expiry.Year < DateTime.Now.Year)
             {
                 return Json("Invalid date expiry.");
             }
-            else if(expiry.Year == DateTime.Now.Year && expiry.Month < DateTime.Now.Month)
+            else if (expiry.Year == DateTime.Now.Year && expiry.Month < DateTime.Now.Month)
             {
                 return Json("Invalid date expiry.");
             }
 
             return Json(true);
-        } 
-
-
+        }
     }
 }

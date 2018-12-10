@@ -6,6 +6,7 @@
     using LuckySlots.Services.Contracts;
     using Microsoft.EntityFrameworkCore;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     public class UserManagementServices : BaseService, IUserManagementServices
@@ -18,6 +19,11 @@
         public IQueryable<User> GetAllUsers()
         {
             return this.Context.Users.AsQueryable();
+        }
+
+        public object GetUserIdAsync(ClaimsPrincipal user)
+        {
+            throw new System.NotImplementedException();
         }
 
         public async Task<User> UpdateFirstName(string userId, string name)
@@ -45,6 +51,5 @@
 
             return user;
         }
-
     }
 }

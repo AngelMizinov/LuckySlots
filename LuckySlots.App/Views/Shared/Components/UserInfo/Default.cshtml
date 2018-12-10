@@ -5,4 +5,4 @@
 }
 
 @*Hello @Model.FirstName,*@
-$ @Model.Currency @Math.Round(Model.AccoutBalance,2)
+@Model.Currency <span id="balance-amount">@Math.Round(Model.AccoutBalance, 2)</span>

@@ -24,7 +24,7 @@
     <Folder Include="Areas\Support\Views\" />
     <Folder Include="wwwroot\images\games\game-of-codes\" />
     <Folder Include="wwwroot\images\games\treasures-of-egypt\" />
-    <Folder Include="wwwroot\images\games\tutti-frutti\" />
+    <Folder Include="wwwroot\images\games\tuttifrutti\" />
     <Folder Include="wwwroot\lib\kendo-ui\js\" />
     <Folder Include="wwwroot\lib\kendo-ui\styles\" />
   </ItemGroup>

@@ -12,12 +12,14 @@
     {
         private readonly ISpinResult spinResult;
         private readonly IGameFactory gameFactory;
+        private readonly IRandomizer randomizer;
 
         public GameService(ISpinResult spinResult,
-            IGameFactory gameFactory)
+            IGameFactory gameFactory, IRandomizer randomizer)
         {
             this.spinResult = spinResult;
             this.gameFactory = gameFactory;
+            this.randomizer = randomizer;
         }
 
         public Game GetGame(string gameName)
@@ -43,6 +45,12 @@
 
         public float Spin(Game game)
         {
+            if (game == null)
+            {
+                // TODO: Create a custom exception and try/catch it.
+                throw new ArgumentException("Game cannot be null!");
+            }
+
             game.WinningRows.Clear();
             var cumulativeCoefficient = 0f;
 
@@ -52,7 +60,7 @@
 
                 for (int j = 0; j < game.GameGrid.GetLength(1); j++)
                 {
-                    var outcome = GenerateOutcome() / 100f;
+                    var outcome = this.randomizer.Next(1, 101) / 100f;
                     var currentFruit = string.Empty;
 
                     if (outcome <= 0.05)
@@ -102,14 +110,6 @@
             this.spinResult.Winnings = (decimal)coefficient * stake;
 
             return this.spinResult;
-        }
-
-        private int GenerateOutcome()
-        {
-            // TODO: Create a wrapper for Random
-            var randomizer = new Random(Guid.NewGuid().GetHashCode());
-
-            return randomizer.Next(1, 101);
         }
     }
 }

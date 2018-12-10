@@ -1,6 +1,5 @@
 ﻿namespace LuckySlots.App.Controllers
 {
-    using Kendo.Mvc.UI;
     using LuckySlots.App.Models;
     using LuckySlots.Data.Models;
     using LuckySlots.Infrastructure.Providers;
@@ -9,10 +8,8 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Diagnostics;
-    using System.Linq;
     using System.Threading.Tasks;
 
     public class HomeController : Controller
@@ -23,7 +20,7 @@
         private readonly ITransactionServices transactionServices;
         private readonly IUserManagementServices userManagementServices;
 
-        public HomeController(IJsonParser parser,UserManager<User> userManager,ICreditCardService creditCardService,
+        public HomeController(IJsonParser parser, UserManager<User> userManager, ICreditCardService creditCardService,
             ITransactionServices transactionServices, IUserManagementServices userManagementServices)
         {
             this.parser = parser;
@@ -70,7 +67,6 @@
                 this.ViewBag.IsValid = false;
                 return View();
             }
-
 
             return View();
         }
@@ -120,7 +116,6 @@
             return View();
         }
 
-        
         public IActionResult Privacy()
         {
             if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
