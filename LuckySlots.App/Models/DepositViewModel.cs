@@ -14,7 +14,8 @@
         public string CardId { get; set; }
 
         [Required]
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "CVV must have only digits.")]
+        [Range(0,10000000, ErrorMessage ="Deposit amount cannot be negative.")]
+        [RegularExpression(@"^[0-9.]+$", ErrorMessage = "Amount field can contain only digits.")]
         public decimal Amount { get; set; }
         
         public ICollection<SelectListItem> CreditCards{ get; set; }

@@ -26,13 +26,5 @@
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM/yyyy}")]
         public DateTime Expiry { get; set; }
-
-        //[Required]
-        //[Range(1,31, ErrorMessage ="Invalid month.")]
-        //public int Month { get; set; }
-
-        //[Required]
-        //[Range(2018,2100,ErrorMessage ="Invalid year.")]
-        //public int Year { get; set; }
     }
 }

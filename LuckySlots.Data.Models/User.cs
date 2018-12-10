@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     // Add profile data for application users by adding properties to the User class
     public class User : IdentityUser
@@ -17,7 +18,8 @@
         [MaxLength(50)]
         public string LastName { get; set; }
 
-        [Range(typeof(decimal),"0","1000000")]
+        //[Range(typeof(decimal),"0","1000000")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal AccountBalance { get; set; }
 
         [DataType(DataType.Date)]

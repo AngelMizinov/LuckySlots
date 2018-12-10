@@ -4,14 +4,16 @@ using LuckySlots.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LuckySlots.Data.Migrations
 {
     [DbContext(typeof(LuckySlotsDbContext))]
-    partial class LuckySlotsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181208174546_User_AccountBalance_Type_Attribute")]
+    partial class User_AccountBalance_Type_Attribute
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,8 +54,7 @@ namespace LuckySlots.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("Amount");
 
                     b.Property<DateTime>("Date");
 

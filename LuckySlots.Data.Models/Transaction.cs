@@ -2,7 +2,8 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public class Transaction
     {
         [Key]
@@ -16,7 +17,8 @@
         [RegularExpression("[a-zA-Z")]
         public string Type { get; set; }
 
-        [Range(typeof(decimal), "0", "1000000")]
+        //[Range(typeof(decimal), "0", "1000000")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
 
         [MaxLength(500)]
