@@ -99,8 +99,8 @@
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             //app.UseDatabaseMigration();
-            app.UseRoleSeeder();
-            app.UseAccountSeeder();
+            //app.UseRoleSeeder();
+            //app.UseAccountSeeder();
 
             if (env.IsDevelopment())
             {
