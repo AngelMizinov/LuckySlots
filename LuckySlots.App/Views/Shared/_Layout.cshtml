@@ -66,19 +66,22 @@
                             <p>Home</p>
                         </a>
                     </li>
-                    <li id="transaction-id">
-                        <a href="#">
-                            <i class="nc-icon nc-credit-card"></i>
-                            <p>Transactions</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a id="profile-page" href="#">
-                            <i class="nc-icon nc-single-02"></i>
-                            <p>Profile</p>
-                        </a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li id="transaction-id">
+                            <a href="#">
+                                <i class="nc-icon nc-credit-card"></i>
+                                <p>Transactions</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a id="profile-page" href="#">
+                                <i class="nc-icon nc-single-02"></i>
+                                <p>Profile</p>
+                            </a>
 
-                    </li>
+                        </li>
+                    }
                     <li>
                         <a href="#">
                             <i class="nc-icon nc-compass-05"></i>
@@ -199,11 +202,13 @@
     <script src="~/theme/js/plugins/bootstrap-notify.js"></script>
     <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="~/lib/theme/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
-   
+    <script src="~/js/snowstorm.js"></script>
+
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.0.1/jquery.payment.min.js"></script>
+
 
     @*<script src="~/Scripts/jquery.js"></script>
         <script src="~/Scripts/jquery.validate.js"></script>

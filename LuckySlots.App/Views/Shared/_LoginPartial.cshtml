@@ -13,15 +13,19 @@
                 @await Component.InvokeAsync("UserInfo", await UserManager.GetUserAsync(this.User))
             </a>
         </li>
-        <li class="nav-item">
-            <a asp-area="" asp-controller="Profile" asp-action="Edit" class="nav-link waves-effect">
+        <li class="nav-item nav-link waves-effect">
+            <a asp-area="" asp-controller="Profile" asp-action="Edit" class="btn btn-sm btn-outline-success">
                 Profile
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link waves-effect">
-                <input id="logout-button" type="submit"  value="Logout" />
-            </a>
+        <li class="nav-item nav-link waves-effect">
+            @*<a class="nav-link waves-effect btn-outline-success">
+                <input id="logout-button" type="submit" value="Logout" />
+
+            </a>*@
+
+            <button id="logout-button" type="submit" class="btn btn-outline-success">Logout</button>                
+            
         </li>
     </ul>
     </form>

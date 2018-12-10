@@ -7,7 +7,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
-    
 
     public class TransactionsController : Controller
     {
@@ -20,6 +19,7 @@
             this.dbContext = dbContext;
         }
 
+        [Authorize]
         public IActionResult Transactions()
         {
             if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
