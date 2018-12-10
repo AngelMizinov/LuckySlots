@@ -8,7 +8,7 @@
     using System.Linq;
 
     [Area("Admin")]
-    [Authorize(Roles = GlobalConstatnts.AdministratorRoleName)]
+    [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class UsersController : Controller
     {
         private readonly IUserManagementServices userManagementServices;

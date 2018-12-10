@@ -4,12 +4,15 @@
     using LuckySlots.Data.Extensions;
     using LuckySlots.Data.Models;
     using LuckySlots.Infrastructure;
+    using LuckySlots.Infrastructure.Contracts;
+    using LuckySlots.Infrastructure.Games;
     using LuckySlots.Infrastructure.HttpClient;
     using LuckySlots.Infrastructure.Providers;
     using LuckySlots.Services.Account;
     using LuckySlots.Services.Admin;
     using LuckySlots.Services.Contracts;
     using LuckySlots.Services.CreditCard;
+    using LuckySlots.Services.Games;
     using LuckySlots.Services.Transactions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -58,6 +61,9 @@
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ICreditCardService, CreditCardService>();
             services.AddScoped<ITransactionServices, TransactionServices>();
+            services.AddScoped<IGameService, GameService>();
+            services.AddScoped<ISpinResult, SpinResult>();
+            services.AddSingleton<IGameFactory, GameFactory>();
 
             services.AddMvc(options =>
             {

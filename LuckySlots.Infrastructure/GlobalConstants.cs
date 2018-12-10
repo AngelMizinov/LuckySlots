@@ -1,6 +1,6 @@
 ﻿namespace LuckySlots.Infrastructure
 {
-    public static class GlobalConstatnts
+    public static class GlobalConstants
     {
         public const string AdministratorRoleName = "Administrator";
         public const string SupportRoleName = "Support";

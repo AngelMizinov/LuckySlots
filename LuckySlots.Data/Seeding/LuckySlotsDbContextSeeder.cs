@@ -43,8 +43,8 @@
 
         private static void SeedRoles(RoleManager<IdentityRole> roleManager)
         {
-            SeedRole(GlobalConstatnts.AdministratorRoleName, roleManager);
-            SeedRole(GlobalConstatnts.SupportRoleName, roleManager);
+            SeedRole(GlobalConstants.AdministratorRoleName, roleManager);
+            SeedRole(GlobalConstants.SupportRoleName, roleManager);
         }
 
         private static void SeedRole(string roleName, RoleManager<IdentityRole> roleManager)
