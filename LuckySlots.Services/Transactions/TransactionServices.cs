@@ -6,6 +6,7 @@
     using LuckySlots.Services.Abstract;
     using LuckySlots.Services.Contracts;
     using LuckySlots.Services.Infrastructure.Exceptions;
+    using LuckySlots.Services.Models;
     using Microsoft.AspNetCore.Identity;
     using System;
     using System.Linq;
@@ -23,6 +24,7 @@
             this.userManager = userManager ?? throw new ArgumentNullException("UserManager cannot be null. An instance of UserManager is required.");
         }
 
+        // TODO: Remove CreateAsync and fix unit tests
         public async Task<Transaction> CreateAsync(string userId, TransactionType type, decimal amount, string description)
         {
             var user = await this.userManager.FindByIdAsync(userId);
@@ -42,19 +44,36 @@
             };
 
             await this.Context.Transactions.AddAsync(transaction);
-
             await this.Context.SaveChangesAsync();
-
             return transaction;
         }
 
-        public async Task<IQueryable<Transaction>> GetAllAsync()
-            => await Task.Run(() => this.Context.Transactions);
-
-
-        public async Task<IQueryable<Transaction>> GetAllByUserIdAsync(string id)
+        public async Task<IQueryable<TransactionAdminListModel>> GetAllAsync()
             => await Task.Run(() => this.Context
                 .Transactions
-                .Where(t => t.UserId == id));
+                .Select(tr => new TransactionAdminListModel
+                {
+                    Date = tr.Date,
+                    Type = tr.Type,
+                    BaseCurrency = tr.BaseCurrency,
+                    BaseCurrencyAmount = tr.BaseCurrencyAmount,
+                    Description = tr.Description,
+                    UserName = tr.User.UserName
+                }));
+
+        public async Task<IQueryable<TransactionUserListModel>> GetAllByUserIdAsync(string id)
+            => await Task.Run(() => this.Context
+                .Transactions
+                .Where(t => t.UserId == id &&
+                    (t.Type == TransactionType.Deposit.ToString() ||
+                    t.Type == TransactionType.Deposit.ToString()))
+                .Select(tr => new TransactionUserListModel
+                {
+                    Date = tr.Date,
+                    Type = tr.Type,
+                    QuotedCurrency = tr.QuotedCurrency,
+                    QuotedCurrencyAmount = tr.QuotedCurrencyAmount,
+                    Description = tr.Description
+                }));
     }
 }

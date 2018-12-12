@@ -6,7 +6,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
 
     public class ProfileController : Controller
@@ -34,7 +33,6 @@
             currUser.CreditCards = await this.creditCardService.GetAllByUserIdAsync(currUser.Id);
 
             var transactions = await this.transactionServices.GetAllByUserIdAsync(currUser.Id);
-            currUser.Transactions = await transactions.ToListAsync();
 
             ProfileViewModel model = new ProfileViewModel()
             {
@@ -46,7 +44,7 @@
                 DateBirth = currUser.DateBirth,
                 Currency = currUser.Currency,
                 CreditCards = currUser.CreditCards,
-                Transactions = currUser.Transactions
+                Transactions = transactions
             };
 
             if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")

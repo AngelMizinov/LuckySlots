@@ -86,38 +86,37 @@
     </div>
     <div class="card-body">
         @(Html.Kendo()
-                        .Grid<Transaction>()
-                        .Name("Transactions")
-                        .Columns(columns =>
-                        {
-                            columns.Bound(m => m.Date).Title("Transaction date").Format("{0:dd/MM/yyyy h:mm:ss tt}");
-                            columns.Bound(m => m.Type);
-                            columns.Bound(m => m.Amount).Format("{0:c}");
-                            columns.Bound(m => m.Description);
-                        })
-                        .HtmlAttributes(new { @class = "bg-dark text-warning" })
-                        .Pageable(page => page.PageSizes(new[] { 5, 10, 20, 25 }))
-                        .Filterable(f => f.Mode(GridFilterMode.Menu))
-                        .Groupable()
-                        .Sortable()
-                        .ToolBar(tool =>
-                        {
-                            tool.Pdf().Text("Create PDF");
-                        })
-                        .DataSource(data =>
-                        {
-                            data
-                                .Ajax()
-                                .Read(read =>
-                                {
-                                    read.Action("ReadUserTransactions", "Transactions", new { Model.UserId });
+            .Grid<TransactionUserListModel>()
+            .Name("Transactions")
+            .Columns(columns =>
+            {
+                columns.Bound(t => t.Date).Title("Transaction date").Format("{0:dd/MM/yyyy h:mm:ss tt}");
+                columns.Bound(t => t.Type);
+                columns.Bound(t => t.QuotedCurrencyAmount).Format("{0:c}").Title("Ccy");
+                columns.Bound(t => t.Description);
+            })
+            .HtmlAttributes(new { @class = "bg-dark text-warning" })
+            .Pageable(page => page.PageSizes(new[] { 5, 10, 15 }))
+            .Filterable(f => f.Mode(GridFilterMode.Menu))
+            .Groupable()
+            .Sortable()
+            .ToolBar(tool =>
+            {
+                tool.Pdf().Text("Create PDF");
+            })
+            .DataSource(data =>
+            {
+                data
+                    .Ajax()
+                    .Read(read =>
+                    {
+                        read.Action("ReadUserTransactions", "Transactions", new { Model.UserId });
 
-                                });
-                        })
+                    });
+            })
         )
     </div>
 </div>
-
 
 @section Scripts {
     <script>
