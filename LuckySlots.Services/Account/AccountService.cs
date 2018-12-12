@@ -1,11 +1,13 @@
 ﻿namespace LuckySlots.Services.Account
 {
     using LuckySlots.Data;
+    using LuckySlots.Data.Models;
     using LuckySlots.Infrastructure.Enums;
     using LuckySlots.Services.Abstract;
     using LuckySlots.Services.Contracts;
     using LuckySlots.Services.Infrastructure.Exceptions;
     using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -24,29 +26,44 @@
             this.creditCardService = creditCardService;
         }
 
-        public async Task<decimal> ChargeAccountAsync(string userId, decimal amount, TransactionType type)
+        public async Task<decimal> ChargeAccountAsync(string userId, decimal amount, TransactionType type, string gameName = null)
         {
             var user = await this.Context.Users
                 .FirstOrDefaultAsync(us => us.Id == userId);
 
-            if (user.AccountBalance < amount)
+            if (user == null)
+            {
+                throw new UserDoesntExistsException("User does not exists!");
+            }
+
+            if (amount > user.AccountBalance)
             {
                 throw new InsufficientFundsException("User's balance is not enough for charging.");
             }
 
-            user.AccountBalance -= amount;
 
             string description = "";
+
             if (type == TransactionType.Stake)
             {
-                description = $"Stake on game";
+                description = $"Stake on game {gameName}";
             }
             else //check Withdrawal
             {
 
             }
 
-            await this.transactionServices.CreateAsync(user.Id, type, amount, description);
+            var transaction = new Transaction
+            {
+                Date = DateTime.UtcNow,
+                User = user,
+                Type = type.ToString(),
+                Amount = amount,
+                Description = description
+            };
+
+            user.AccountBalance -= amount;
+            await this.Context.Transactions.AddAsync(transaction);
             await this.Context.SaveChangesAsync();
 
             return user.AccountBalance;
@@ -72,7 +89,8 @@
             string userId,
             decimal amount,
             TransactionType type,
-            string cardId = null)
+            string cardId = null,
+            string gameName = null)
         {
             var user = await this.Context.Users
                 .FirstOrDefaultAsync(us => us.Id == userId);
@@ -80,16 +98,16 @@
             user.AccountBalance += amount;
 
             string description = "";
+
             if (type == TransactionType.Deposit)
             {
                 var cardNumber = await this.creditCardService.GetLastForDigitsOfCardNumberAsync(cardId);
 
                 description = $"Deposit with card **** **** **** {cardNumber}";
             }
-            // TODO: game type in description
             else if (type == TransactionType.Win)
             {
-                description = $"Win on game";
+                description = $"Win on game {gameName}";
             }
 
             // TODO: call 2 times SaveChangesAsync() 
