@@ -30,8 +30,8 @@
                     <div class="col-md-6 pr-1">
                         <div class="form-group">
                             <label>Amount</label>
-                            <label asp-for="@Model.Amount" class="control-label">Number</label>
-                            <input asp-for="@Model.Amount" class="form-control" />
+                            <label asp-for="@Model.Amount" class="control-label"></label>
+                            <input asp-for="@Model.Amount" class="form-control" value="" />
                             <span asp-validation-for="@Model.Amount" class="text-danger"></span>
                         </div>
                     </div>
@@ -45,9 +45,20 @@
 
             <partial name="_AddCardPartial" model="@Model.CreditCardModel" />
 
-            <div id="deposit-success-message" class="alert alert-success close" role="alert" style="display:none">
-                @TempData["Success-Message"]
-            </div>
+            @if (TempData["Error-Message"] != null)
+            {
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    @TempData["Error-Message"]
+                </div>
+            }
+            @if (TempData["Success-Message"] != null)
+            {
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    @TempData["Success-Message"]
+                </div>
+            }
 
         </div>
 
@@ -62,27 +73,17 @@
             $('.cc-cvc').formatCardCVC();
             $('.cc-expires').formatCardExpiry();
         });
-
-        //$('#add-card-button').click(function (data) {
-        //    $('#deposit-success-message').show();
-        //    $('#deposit-success-message').fadeOut(10000);
-        //});
-
+        
         $('#card-input-form').card({
-            // a selector or DOM element for the container
-            // where you want the card to appear
-            container: '.card-wrapper', // *required*
+            container: '.card-wrapper',
 
             formSelectors: {
-                numberInput: '#card-number-input', 
-                expiryInput: '#card-expiry-input', 
+                numberInput: '#card-number-input',
+                expiryInput: '#card-expiry-input',
                 cvcInput: '#card-cvv-input',
             }
+        });
 
-            // all of the other options from above
-        }
-        );
-        
     </script>
 
 }

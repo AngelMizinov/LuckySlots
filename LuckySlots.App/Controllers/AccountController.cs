@@ -64,10 +64,11 @@
             {
                 await this.accountService.DepositAsync(currUser.Id, model.Amount, TransactionType.Deposit, model.CardId);
             }
+            // TODO: Why we catch UserDoesntExistsException ? 
             catch (UserDoesntExistsException ex)
             {
                 this.TempData["Error-Message"] = ex.Message;
-                return View();
+                return RedirectToAction("Deposit", "Account");
             }
 
             this.TempData["Success-Message"] = $"You successfully make deposit!";
@@ -103,7 +104,7 @@
             catch (CreditCardAlreadyExistsException ex)
             {
                 this.TempData["Error-Message"] = ex.Message;
-                return View();
+                return RedirectToAction("Deposit", "Account");
             }
 
             this.TempData["Success-Message"] = $"Card successfully added!";

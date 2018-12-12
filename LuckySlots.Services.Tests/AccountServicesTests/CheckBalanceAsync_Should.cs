@@ -1,17 +1,17 @@
-﻿using LuckySlots.Data;
-using LuckySlots.Data.Models;
-using LuckySlots.Services.Account;
-using LuckySlots.Services.Contracts;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LuckySlots.Services.Tests.AccountServicesTests
+﻿namespace LuckySlots.Services.Tests.AccountServicesTests
 {
+    using LuckySlots.Data;
+    using LuckySlots.Data.Models;
+    using LuckySlots.Services.Account;
+    using LuckySlots.Services.Contracts;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Threading.Tasks;
+
     [TestClass]
     public class CheckBalanceAsync_Should
     {

@@ -5,6 +5,7 @@
     using LuckySlots.Infrastructure.Extensions;
     using LuckySlots.Infrastructure.Games;
     using LuckySlots.Services.Contracts;
+    using LuckySlots.Services.Infrastructure.Exceptions;
     using System;
     using System.Linq;
 
@@ -38,8 +39,8 @@
             }
             else
             {
-                // TODO: Create a custom exception and try/catch it.
-                throw new ArgumentException("Game name is not valid!");
+                // TODO: Try/catch the exception.
+                throw new GameDoesntExistsException("This game does not exists.");
             }
         }
 
@@ -53,7 +54,7 @@
 
             game.WinningRows.Clear();
             var cumulativeCoefficient = 0f;
-
+                
             for (int i = 0; i < game.GameGrid.GetLength(0); i++)
             {
                 var currentCummulativeCoefficient = 0f;
@@ -86,7 +87,7 @@
 
                     game.GameGrid[i, j] = currentFruit;
                 }
-
+                
                 var distinctOutcomes = game.GameGrid.GetRow(i).Distinct();
                 var distinctOutcomesCount = distinctOutcomes.Count();
 
