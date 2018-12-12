@@ -3,6 +3,7 @@
     using LuckySlots.Infrastructure.Contracts;
     using LuckySlots.Infrastructure.Games;
     using LuckySlots.Services.Games;
+    using LuckySlots.Services.Infrastructure.Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using System;
@@ -84,7 +85,7 @@
             var sut = new GameService(spinResultMoq.Object, gamefactoryMoq.Object, randomizerMoq.Object);
 
             // Assert
-            Assert.ThrowsException<ArgumentException>(() => sut.GetGame(invalidGameName));
+            Assert.ThrowsException<GameDoesntExistsException>(() => sut.GetGame(invalidGameName));
         }
     }
 }
