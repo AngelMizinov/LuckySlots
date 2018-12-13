@@ -60,11 +60,11 @@
 
             if (spinResult.Winnings > 0)
             {
-                var newBalance = await this.accountService.DepositAsync(userId, spinResult.Winnings, TransactionType.Win);
+                var newBalance = await this.accountService.DepositAsync(userId, spinResult.Winnings, TransactionType.Win, gameName: gameName);
             }
             else
             {
-                var a = await this.accountService.ChargeAccountAsync(userId, stake, TransactionType.Stake);
+                var a = await this.accountService.ChargeAccountAsync(userId, stake, TransactionType.Stake, gameName: gameName);
             }
 
             return Json(spinResult);

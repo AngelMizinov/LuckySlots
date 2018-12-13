@@ -4,14 +4,16 @@ using LuckySlots.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LuckySlots.Data.Migrations
 {
     [DbContext(typeof(LuckySlotsDbContext))]
-    partial class LuckySlotsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181212093534_Added_Currency_Details_To_Transactions")]
+    partial class Added_Currency_Details_To_Transactions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

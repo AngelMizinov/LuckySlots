@@ -1,17 +1,19 @@
 ﻿<h1>Hello</h1>
 
 @(Html.Kendo()
-    .Grid<Transaction>()
+    .Grid<TransactionAdminListModel>()
     .Name("Transactions")
     .Columns(columns =>
     {
-        columns.Bound(m => m.Date).Title("Transaction date").Format("{0:dd/MM/yyyy h:mm:ss tt}");
-        columns.Bound(m => m.Type);
-        columns.Bound(m => m.Amount).Format("{0:c}");
-        columns.Bound(m => m.Description);
+        columns.Bound(t => t.Date).Title("Transaction date").Format("{0:dd/MM/yyyy h:mm:ss tt}");
+        columns.Bound(t => t.Type);
+        columns.Bound(t => t.BaseCurrencyAmount).Format("{0:c}").Title("Amount");
+        columns.Bound(t => t.BaseCurrency).Title("Ccy");
+        columns.Bound(t => t.Description);
+        columns.Bound(t => t.UserName).Title("User");
     })
     .HtmlAttributes(new { @class = "bg-dark text-warning" })
-    .Pageable(page => page.PageSizes(new[] { 5, 10, 20, 25}))
+    .Pageable(page => page.PageSizes(new[] { 5, 10, 15 }))
     .Filterable(f => f.Mode(GridFilterMode.Menu))
     .Groupable()
     .Sortable()

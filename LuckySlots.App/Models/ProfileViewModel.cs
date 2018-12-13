@@ -1,6 +1,7 @@
 ﻿namespace LuckySlots.App.Models
 {
     using LuckySlots.Data.Models;
+    using LuckySlots.Services.Models;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -28,8 +29,10 @@
         public DateTime DateBirth { get; set; }
 
         public string Currency { get; set; }
-        
-        public ICollection<Transaction> Transactions { get; set; }
+
+        public ICollection<CreditCard> CreditCards { get; set; }
+
+        public IQueryable<TransactionUserListModel> Transactions { get; set; }
 
         public DeleteCardViewModel DeleteCardModel { get; set; }
     }

@@ -21,10 +21,22 @@
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
 
+        public string BaseCurrency { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal BaseCurrencyAmount { get; set; }
+
+        public double ExchangeRate { get; set; }
+
+        public string QuotedCurrency { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal QuotedCurrencyAmount { get; set; }
+
         [MaxLength(500)]
         public string Description { get; set; }
 
-        [ScaffoldColumn(false)]
+        //[ScaffoldColumn(false)]
         public string UserId { get; set; }
 
         public User User { get; set; }

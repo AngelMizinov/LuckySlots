@@ -33,10 +33,9 @@
         {
             var currUser = await this.userManager.GetUserAsync(this.User);
 
-            currUser.CreditCards = await this.creditCardService.GetAllByUserIdAsync(currUser.Id);
+            var creditCards = await this.creditCardService.GetAllByUserIdAsync(currUser.Id);
 
             var transactions = await this.transactionServices.GetAllByUserIdAsync(currUser.Id);
-            currUser.Transactions = await transactions.ToListAsync();
 
             ProfileViewModel model = new ProfileViewModel()
             {
@@ -47,9 +46,10 @@
                 AccountBalance = currUser.AccountBalance,
                 DateBirth = currUser.DateBirth,
                 Currency = currUser.Currency,
-                Transactions = currUser.Transactions
+                //CreditCards = creditCards,
+                Transactions = transactions
             };
-            
+
             //model.DeleteCardModel.CreditCards = currUser.CreditCards.Select(card => new SelectListItem()
             //{
             //    Text = "**** **** **** " + card.Number.Substring(card.Number.Length - 4),
