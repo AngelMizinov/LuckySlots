@@ -6,7 +6,9 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class ProfileController : Controller
@@ -45,9 +47,14 @@
                 AccountBalance = currUser.AccountBalance,
                 DateBirth = currUser.DateBirth,
                 Currency = currUser.Currency,
-                CreditCards = currUser.CreditCards,
                 Transactions = currUser.Transactions
             };
+            
+            //model.DeleteCardModel.CreditCards = currUser.CreditCards.Select(card => new SelectListItem()
+            //{
+            //    Text = "**** **** **** " + card.Number.Substring(card.Number.Length - 4),
+            //    Value = card.Id.ToString()
+            //}).ToList();
 
             if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
             {
@@ -78,6 +85,39 @@
             }
 
             return RedirectToAction("Edit");
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> DeleteCard()
+        {
+            var currUser = await this.userManager.GetUserAsync(this.User);
+
+            var cards = await this.creditCardService.GetAllByUserIdAsync(currUser.Id);
+
+            DeleteCardViewModel model = new DeleteCardViewModel()
+            {
+                CreditCards = cards.Select(c => new SelectListItem
+                {
+                    Text = "**** **** **** " + c.Number.Substring(c.Number.Length - 4),
+                    Value = c.Id.ToString()
+                })
+                .ToList()
+            };
+
+            return View("Edit", model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> DeleteCard(CreditCardViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                RedirectToAction("Edit");
+            }
+
+            return View("Edit");
         }
     }
 }

@@ -28,10 +28,9 @@
         public DateTime DateBirth { get; set; }
 
         public string Currency { get; set; }
-
-        public ICollection<CreditCard> CreditCards { get; set; }
-
+        
         public ICollection<Transaction> Transactions { get; set; }
 
+        public DeleteCardViewModel DeleteCardModel { get; set; }
     }
 }

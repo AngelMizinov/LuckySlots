@@ -1,0 +1,36 @@
+﻿@model DeleteCardViewModel
+<!-- Modal -->
+<div class="modal fade" id="delete-card-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New Card</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Profile" asp-action="DeleteCard" method="post">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                @*<label asp-for="@Model.CardId">Card Number</label>
+                                <br />
+                                <select asp-for="@Model.CardId" asp-items="Model.CreditCards" class="form-control"></select>
+                                <span asp-validation-for="@Model.CardId" class="text-danger"></span>*@
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Remove</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
