@@ -32,7 +32,7 @@
                 })
                 .ToList();
 
-            return View(vms);
+            return PartialView(vms);
         }
     }
 }

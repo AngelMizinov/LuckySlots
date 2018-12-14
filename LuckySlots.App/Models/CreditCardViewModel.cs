@@ -11,8 +11,8 @@
     {
         [Required]
         [RegularExpression(@"^[0-9 ]+$", ErrorMessage = "Card number must have only digits.")]
-        [MaxLength(16, ErrorMessage = "Card number must contain 16 digits.")]
-        [MinLength(16, ErrorMessage = "Card number must contain 16 digits.")]
+        [MaxLength(21, ErrorMessage = "Card number must contain 16 digits.")]
+        [MinLength(17, ErrorMessage = "Card number must contain 16 digits.")]
         public string Number { get; set; }
 
         [Required]

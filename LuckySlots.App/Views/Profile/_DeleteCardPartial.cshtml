@@ -1,4 +1,5 @@
 ﻿@model DeleteCardViewModel
+
 <!-- Modal -->
 <div class="modal fade" id="delete-card-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -14,10 +15,10 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                @*<label asp-for="@Model.CardId">Card Number</label>
+                                <label asp-for="@Model.CardId">Card Number</label>
                                 <br />
                                 <select asp-for="@Model.CardId" asp-items="Model.CreditCards" class="form-control"></select>
-                                <span asp-validation-for="@Model.CardId" class="text-danger"></span>*@
+                                <span asp-validation-for="@Model.CardId" class="text-danger"></span>
                             </div>
                         </div>
                     </div>

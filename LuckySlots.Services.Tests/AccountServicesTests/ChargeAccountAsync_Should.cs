@@ -3,6 +3,7 @@
     using LuckySlots.Data;
     using LuckySlots.Data.Models;
     using LuckySlots.Infrastructure.Enums;
+    using LuckySlots.Infrastructure.Providers;
     using LuckySlots.Services.Account;
     using LuckySlots.Services.Contracts;
     using LuckySlots.Services.Infrastructure.Exceptions;
@@ -29,6 +30,7 @@
 
             var mockTransactionServices = new Mock<ITransactionServices>();
             var mockCreditCardServices = new Mock<ICreditCardService>();
+            var mockJsonParser = new Mock<IJsonParser>();
 
             var user = new User()
             {
@@ -38,21 +40,23 @@
 
             decimal expectedBalance;
 
+            mockJsonParser
+                .Setup(jp => jp.ExtractExchangeRate(It.IsAny<string>()))
+                .ReturnsAsync(It.IsAny<double>());
+
             using (var actContext = new LuckySlotsDbContext(options))
             {
                 await actContext.Users.AddAsync(user);
                 await actContext.SaveChangesAsync();
 
-                var accountService = new AccountService(actContext, mockTransactionServices.Object, mockCreditCardServices.Object);
+                var accountService = new AccountService(actContext, mockTransactionServices.Object, mockCreditCardServices.Object
+                    , mockJsonParser.Object);
                 expectedBalance = await accountService.ChargeAccountAsync(user.Id, 200, TransactionType.Stake);
             }
 
             var newBalance = user.AccountBalance;
 
-            using (var assertContext = new LuckySlotsDbContext(options))
-            {
-                Assert.AreEqual(expectedBalance, newBalance);
-            }
+            Assert.AreEqual(expectedBalance, newBalance);
         }
 
         [TestMethod]
@@ -62,12 +66,17 @@
 
             var mockTransactionServices = new Mock<ITransactionServices>();
             var mockCreditCardServices = new Mock<ICreditCardService>();
+            var mockJsonParser = new Mock<IJsonParser>();
 
             var user = new User()
             {
                 Id = "1",
                 AccountBalance = 300
             };
+
+            mockJsonParser
+              .Setup(jp => jp.ExtractExchangeRate(It.IsAny<string>()))
+              .ReturnsAsync(It.IsAny<double>());
 
             using (var actContext = new LuckySlotsDbContext(options))
             {
@@ -77,7 +86,8 @@
 
             using (var assertContext = new LuckySlotsDbContext(options))
             {
-                var accountService = new AccountService(assertContext, mockTransactionServices.Object, mockCreditCardServices.Object);
+                var accountService = new AccountService(assertContext, mockTransactionServices.Object, mockCreditCardServices.Object,
+                    mockJsonParser.Object);
 
                 await Assert.ThrowsExceptionAsync<InsufficientFundsException>(() =>
                 accountService.ChargeAccountAsync(user.Id, 500, TransactionType.Stake));
@@ -91,13 +101,19 @@
 
             var mockTransactionServices = new Mock<ITransactionServices>();
             var mockCreditCardServices = new Mock<ICreditCardService>();
+            var mockJsonParser = new Mock<IJsonParser>();
 
             var user = new User()
             {
                 Id = "1",
                 AccountBalance = 300
             };
-            
+
+            mockJsonParser
+              .Setup(jp => jp.ExtractExchangeRate(It.IsAny<string>()))
+              .ReturnsAsync(It.IsAny<double>());
+
+
             using (var actContext = new LuckySlotsDbContext(options))
             {
                 await actContext.Users.AddAsync(user);
@@ -106,7 +122,8 @@
 
             using (var assertContext = new LuckySlotsDbContext(options))
             {
-                var accountService = new AccountService(assertContext, mockTransactionServices.Object, mockCreditCardServices.Object);
+                var accountService = new AccountService(assertContext, mockTransactionServices.Object, mockCreditCardServices.Object,
+                    mockJsonParser.Object);
                 var expectedBalance = await accountService.ChargeAccountAsync(user.Id, 200, TransactionType.Stake);
 
                 mockTransactionServices.Verify(transServices => transServices.CreateAsync(It.IsAny<string>(), It.IsAny<TransactionType>(),

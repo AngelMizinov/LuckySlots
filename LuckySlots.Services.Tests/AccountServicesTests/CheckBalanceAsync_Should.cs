@@ -2,6 +2,7 @@
 {
     using LuckySlots.Data;
     using LuckySlots.Data.Models;
+    using LuckySlots.Infrastructure.Providers;
     using LuckySlots.Services.Account;
     using LuckySlots.Services.Contracts;
     using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,7 @@
 
             var mockTransactionServices = new Mock<ITransactionServices>();
             var mockCreditCardServices = new Mock<ICreditCardService>();
-
+            var mockJsonParser = new Mock<IJsonParser>();
 
             var user = new User()
             {
@@ -43,7 +44,8 @@
                 await actContext.Users.AddAsync(user);
                 await actContext.SaveChangesAsync();
 
-                var accountService = new AccountService(actContext, mockTransactionServices.Object, mockCreditCardServices.Object);
+                var accountService = new AccountService(actContext, mockTransactionServices.Object, mockCreditCardServices.Object,
+                    mockJsonParser.Object);
                 expectedBalance = await accountService.CheckBalanceAsync(user.Id);
             }
 

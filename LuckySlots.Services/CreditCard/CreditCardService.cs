@@ -77,7 +77,7 @@
         {
             CreditCard card = await this.GetCreditCardByIdAsync(id);
             
-            if(card == null || card.IsDeleted)
+            if(card == null || card.IsDeleted == true)
             {
                 throw new CreditCardDoesntExistsException("Credit card with this id does not exists!");
             }
@@ -100,7 +100,8 @@
         public async Task<ICollection<CreditCard>> GetAllByUserIdAsync(string userId)
         {
             var cards = await this.Context.CreditCards
-                .Where(crCard => crCard.UserId == userId)
+                .Where(crCard => crCard.UserId == userId 
+                && crCard.IsDeleted == false)
                 .ToListAsync();
 
             return cards;
