@@ -1,0 +1,31 @@
+﻿@model BalanceViewModel
+
+<div class="card">
+    <div class="image">
+        <img src="~/images/profile_cover_image.png" alt="...">
+    </div>
+    <div class="card-body text-center">
+        <h2>@Model.FirstName @Model.LastName</h2>
+        <h5>Balance: @Model.AccountBalance</h5>
+        <div class="update">
+            <button type="submit" data-toggle="modal" data-target="#delete-card-modal" class="btn btn-primary btn-round">Delete Card</button>
+        </div>
+        
+        @if (TempData["Error-Message"] != null)
+        {
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                @TempData["Error-Message"]
+            </div>
+        }
+        @if (TempData["Success-Message"] != null)
+        {
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                @TempData["Success-Message"]
+            </div>
+        }
+        
+        <partial name="_DeleteCardPartial" model="@Model.DeleteCardModel" />
+    </div>
+</div>

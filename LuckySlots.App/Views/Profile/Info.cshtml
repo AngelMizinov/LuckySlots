@@ -1,0 +1,18 @@
+﻿@model InfoViewModel
+
+<div class="row">
+
+    <div id="balance-partial" class="col-md-4 d-flex">
+        <partial name="_BalancePartial" model="@Model.BalanceModel">
+    </div>
+
+
+    <div id="profile-details-partial" class="col-md-8 ">
+        <partial name="_ProfileDetailsPartial" model="@Model.ProfileDetailsModel">
+    </div>
+
+</div>
+
+<div id="transactions-partial">
+    <partial name="_UserTransactionsPartial">
+</div>

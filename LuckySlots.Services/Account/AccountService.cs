@@ -31,6 +31,7 @@
             this.jsonParser = jsonParser;
         }
 
+        // TODO: Add exchange rate in ChargeAccountAsync
         public async Task<decimal> ChargeAccountAsync(string userId, decimal amount, TransactionType type, string gameName = null)
         {
             var user = await this.Context.Users

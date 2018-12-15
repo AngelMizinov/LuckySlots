@@ -1,13 +1,19 @@
 ﻿namespace LuckySlots.App.Controllers
 {
     using LuckySlots.App.Models;
+    using LuckySlots.App.Models.ProfileViewModels;
     using LuckySlots.Data.Models;
     using LuckySlots.Services.Contracts;
+    using LuckySlots.Services.Infrastructure.Exceptions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+    using System.Linq;
     using System.Threading.Tasks;
 
+    [Authorize]
     public class ProfileController : Controller
     {
         private readonly UserManager<User> userManager;
@@ -24,27 +30,44 @@
             this.creditCardService = creditCardService;
         }
 
-        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Info()
         {
             var currUser = await this.userManager.GetUserAsync(this.User);
 
-            currUser.CreditCards = await this.creditCardService.GetAllByUserIdAsync(currUser.Id);
+            var cards = await this.creditCardService.GetAllByUserIdAsync(currUser.Id);
 
-            var transactions = await this.transactionServices.GetAllByUserIdAsync(currUser.Id);
+            DeleteCardViewModel deleteCardModel = new DeleteCardViewModel();
 
-            ProfileViewModel model = new ProfileViewModel()
+            deleteCardModel.CreditCards = cards.Select(card => new SelectListItem()
+            {
+                Text = "**** **** **** " + card.Number.Substring(card.Number.Length - 4),
+                Value = card.Id.ToString()
+            }).ToList();
+
+            BalanceViewModel balanceModel = new BalanceViewModel()
+            {
+                FirstName = currUser.FirstName,
+                LastName = currUser.LastName,
+                AccountBalance = currUser.AccountBalance,
+                DeleteCardModel = deleteCardModel
+            };
+
+            ProfileDetailsViewModel profileDetailsModel = new ProfileDetailsViewModel()
             {
                 UserId = currUser.Id,
                 FirstName = currUser.FirstName,
                 LastName = currUser.LastName,
-                Email = currUser.Email,
-                AccountBalance = currUser.AccountBalance,
                 DateBirth = currUser.DateBirth,
-                Currency = currUser.Currency,
-                CreditCards = currUser.CreditCards,
-                Transactions = transactions
+                Email = currUser.Email,
+                Currency = currUser.Currency
+            };
+
+            InfoViewModel model = new InfoViewModel()
+            {
+                UserId = currUser.Id,
+                BalanceModel = balanceModel,
+                ProfileDetailsModel = profileDetailsModel
             };
 
             if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
@@ -55,13 +78,12 @@
             return View(model);
         }
 
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Edit(ProfileViewModel model)
+        public async Task<IActionResult> Info(ProfileDetailsViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
-                return RedirectToAction("Edit");
+                return RedirectToAction("Info");
             }
 
             var currUser = await this.userManager.GetUserAsync(this.User);
@@ -75,7 +97,49 @@
                 return PartialView();
             }
 
-            return RedirectToAction("Edit");
+            return RedirectToAction("Info");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteCard()
+        {
+            var currUser = await this.userManager.GetUserAsync(this.User);
+
+            var cards = await this.creditCardService.GetAllByUserIdAsync(currUser.Id);
+
+            DeleteCardViewModel model = new DeleteCardViewModel()
+            {
+                CreditCards = cards.Select(c => new SelectListItem
+                {
+                    Text = "**** **** **** " + c.Number.Substring(c.Number.Length - 4),
+                    Value = c.Id.ToString()
+                })
+                .ToList()
+            };
+
+            return RedirectToAction("Info", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteCard(DeleteCardViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+               return RedirectToAction("Info");
+            }
+
+            try
+            {
+                await this.creditCardService.DeleteAsync(model.CardId);
+            }
+            catch (CreditCardDoesntExistsException)
+            {
+                return RedirectToAction("Info");
+            }
+
+            this.TempData["Success-Message"] = "The card is removed successfully.";
+            return RedirectToAction("Info");
+        }
+        
     }
 }

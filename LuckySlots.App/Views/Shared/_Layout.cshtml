@@ -73,7 +73,7 @@
                     @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
                         <li id="transaction-id">
-                            <a href="#">
+                            <a href="#" data-url="/transactions/transactions">
                                 <i class="nc-icon nc-credit-card"></i>
                                 <p>Transactions</p>
                             </a>
@@ -84,9 +84,15 @@
                                 <p>Users</p>
                             </a>
                         </li>
+                        <li>
+                            <a id="profile-button" href="#" data-url="/profile/info">
+                                <i class="nc-icon nc-single-02"></i>
+                                <p>Profile</p>
+                            </a>
+                        </li>
                     }
                     <li>
-                        <a href="#">
+                        <a href="#" data-url="/home/about">
                             <i class="nc-icon nc-compass-05"></i>
                             <p>About</p>
                         </a>
@@ -200,7 +206,11 @@
     <script src="~/theme/js/plugins/bootstrap-notify.js"></script>
     <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="~/lib/theme/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
-    @*<script src="~/js/snowstorm.js"></script>*@
+    <<<<<<< HEAD
+    @*
+    <script src="~/js/snowstorm.js"></script>*@
+    =======
+    >>>>>>> 4546fa95faec83a38965622ef7c91fe4a6a3f1e3
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
@@ -216,6 +226,7 @@
     <!-- at the end of BODY -->
     <!-- CSS is included via this JavaScript file -->
     <script src="~/lib/jquery/card/jquery.card.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.payform.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -223,41 +234,13 @@
                 $('.active').toggleClass('active')
                 $(this).toggleClass('active')
 
-                let action = $(this).find('p').text()
-                let controller = '/Home/'
-                if (action == 'Transactions') {
-                    controller = '/Transactions/'
-                }
+                const url = $(this).find('a').data('url');
+                //console.log($(this).find('a').data('url'));
 
-                $.get(controller + action, function (data) {
+                $.get(url, function (data) {
                     $('.content').html(data)
                 })
             })
-
-            $('#profile-page').on('click', function () {
-                $('.active').toggleClass('active')
-                $(this).toggleClass('active')
-
-                $.ajax
-                    ({
-                        type: "GET",
-                        controller: "Profile",
-                        action: "Edit",
-                        url: "/Profile/Edit",
-                        success: function (data) {
-                            $('.content').html(data)
-                        }
-                    });
-
-            });
-
-            // TODO: transactions button append and remove
-            $('#logout-button').on('click', function () {
-                $('#transaction-id').remove();
-            });
-            $('#login-id').on('click', function () {
-                $('#transactiond-id').append();
-            });
         });
     </script>
 
