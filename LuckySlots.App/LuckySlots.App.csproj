@@ -30,19 +30,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Areas\Admin\Views\Shared\Error.cshtml">
+    <Content Update="Areas\Admin\Views\(not needed)Shared\Error.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Areas\Admin\Views\Shared\_CookieConsentPartial.cshtml">
+    <Content Update="Areas\Admin\Views\(not needed)Shared\_CookieConsentPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Areas\Admin\Views\Shared\_Layout.cshtml">
+    <Content Update="Areas\Admin\Views\(not needed)Shared\_Layout.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Areas\Admin\Views\Shared\_LoginPartial.cshtml">
+    <Content Update="Areas\Admin\Views\(not needed)Shared\_LoginPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Areas\Admin\Views\Shared\_ValidationScriptsPartial.cshtml">
+    <Content Update="Areas\Admin\Views\(not needed)Shared\_ValidationScriptsPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\Admin\Views\_ViewImports.cshtml">

@@ -60,7 +60,17 @@
                             <p>Home</p>
                         </a>
                     </li>
-                    @if (User.Identity.IsAuthenticated)
+                    @if (User.Identity.IsAuthenticated && User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
+                    {
+                        <li>
+                            <a id="profile-page" href="#">
+                                <i class="nc-icon nc-single-02"></i>
+                                <p>Profile</p>
+                            </a>
+                        </li>
+                    }
+
+                    @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
                         <li id="transaction-id">
                             <a href="#">
@@ -68,12 +78,11 @@
                                 <p>Transactions</p>
                             </a>
                         </li>
-                        <li>
-                            <a id="profile-page" href="#">
-                                <i class="nc-icon nc-single-02"></i>
-                                <p>Profile</p>
+                        <li id="all-users-id">
+                            <a href="Admin/Users/All">
+                                <i class="nc-icon nc-credit-card"></i>
+                                <p>Users</p>
                             </a>
-
                         </li>
                     }
                     <li>
@@ -191,7 +200,7 @@
     <script src="~/theme/js/plugins/bootstrap-notify.js"></script>
     <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="~/lib/theme/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
-    <script src="~/js/snowstorm.js"></script>
+    @*<script src="~/js/snowstorm.js"></script>*@
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

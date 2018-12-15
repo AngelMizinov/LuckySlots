@@ -1,6 +1,6 @@
 ﻿namespace LuckySlots.App.Areas.Admin.Models
 {
-    public class UserListViewModel
+    public class ManageUserViewModel
     {
         public string Id { get; set; }
 
@@ -8,12 +8,10 @@
 
         public string LastName { get; set; }
 
-        public string Email { get; set; }
-
         public bool IsAdmin { get; set; }
 
         public bool IsSupport { get; set; }
 
-        public bool IsAccountLocked { get; set; }
+        public bool IsLocked { get; set; }
     }
 }

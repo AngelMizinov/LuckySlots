@@ -36,3 +36,24 @@ body {
 #logout-button {
     padding: 9px;
 }
+
+/* Bootstrap card zoom effect */
+.inner {
+    overflow: hidden;
+}
+
+    .inner img {
+        transition: all 1.5s ease;
+        /*height: 20rem;
+        height: 20rem;*/
+    }
+
+    .inner:hover img {
+        transform: scale(2);
+    }
+
+.card-img-top {
+    width: 100%;
+    height: 12vw;
+    object-fit: cover;
+}

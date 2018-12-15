@@ -48,8 +48,8 @@
             return transaction;
         }
 
-        public async Task<IQueryable<TransactionAdminListModel>> GetAllAsync()
-            => await Task.Run(() => this.Context
+        public Task<IQueryable<TransactionAdminListModel>> GetAllAsync()
+            => Task.FromResult(this.Context
                 .Transactions
                 .Select(tr => new TransactionAdminListModel
                 {
@@ -61,8 +61,8 @@
                     UserName = tr.User.UserName
                 }));
 
-        public async Task<IQueryable<TransactionUserListModel>> GetAllByUserIdAsync(string id)
-            => await Task.Run(() => this.Context
+        public Task<IQueryable<TransactionUserListModel>> GetAllByUserIdAsync(string id)
+            => Task.FromResult(this.Context
                 .Transactions
                 .Where(t => t.UserId == id &&
                     (t.Type == TransactionType.Deposit.ToString() ||

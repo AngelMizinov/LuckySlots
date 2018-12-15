@@ -57,6 +57,8 @@
 
             }
 
+            user.AccountBalance -= amount;
+
             // TODO: Change all instances of DateTime.Now to DateTime.UtcNow
             var transaction = new Transaction
             {
@@ -75,7 +77,6 @@
                 throw new Exception("Failed to add the new transaction to the DB.");
             }
 
-            user.AccountBalance -= amount;
             await this.Context.SaveChangesAsync();
 
             return user.AccountBalance;

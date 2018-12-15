@@ -1,7 +1,5 @@
 ﻿$('document').ready(function () {
     let gameName = window.location.pathname.split('/').pop()
-    console.log(gameName)
-
     let canvas = document.querySelector('canvas')
     let canvasHeight
     let canvasWidth
@@ -39,7 +37,7 @@
             imageHeight = 50
             imageWidth = 80
             apple.src = '../images/games/treasures-of-egypt/mummy.png'
-            banana.src = '../images/games/treasures-of-egypt/sphinx.png'
+            banana.src = '../images/games/treasures-of-egypt/nefertiti.png'
             pineapple.src = '../images/games/treasures-of-egypt/pyramid.png'
             wildcard.src = '../images/games/treasures-of-egypt/seven.png'
         }
@@ -104,6 +102,6 @@
             ctx.stroke()
         }
 
-        alert(`You win: ${data.Winnings}`)
+        //alert(`You win: ${data.Winnings}`)
     }
 })

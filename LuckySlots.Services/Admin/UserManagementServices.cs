@@ -4,27 +4,78 @@
     using LuckySlots.Data.Models;
     using LuckySlots.Services.Abstract;
     using LuckySlots.Services.Contracts;
+    using LuckySlots.Services.Models;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
     public class UserManagementServices : BaseService, IUserManagementServices
     {
-        public UserManagementServices(LuckySlotsDbContext context)
+        private readonly UserManager<User> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
+
+        public UserManagementServices(
+            LuckySlotsDbContext context,
+            UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager)
             : base(context)
         {
+            this.userManager = userManager;
+            this.roleManager = roleManager;
         }
 
-        public IQueryable<User> GetAllUsers()
+        public Task<IQueryable<UserListViewModel>> GetAllUsersAsync()
+            => Task.FromResult(this.Context
+                .Users.Select(u => new UserListViewModel
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Email = u.Email,
+                    IsAdmin = u.IsAdmin,
+                    IsSupport = u.IsSupport,
+                    IsAccountLocked = u.IsAccountLocked
+                }));
+
+        public async Task<IdentityResult> ToggleRole(User user, string role)
         {
-            return this.Context.Users.AsQueryable();
+            try
+            {
+                if (user == null)
+                {
+                    throw new NullReferenceException("User cannot be null.");
+                }
+
+                var existingRole = await this.roleManager.FindByNameAsync(role);
+
+                if (existingRole == null)
+                {
+                    throw new ArgumentException("Role does not exist.");
+                }
+
+                var isInRole = await this.userManager.IsInRoleAsync(user, role);
+
+                if (isInRole == true)
+                {
+                    throw new ArgumentException($"User {user.UserName} is already in role {role}.");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return await this.userManager.AddToRoleAsync(user, role);
         }
 
-        public object GetUserIdAsync(ClaimsPrincipal user)
-        {
-            throw new System.NotImplementedException();
-        }
+        //public async Task<string> GetUserIdAsync(ClaimsPrincipal claimsPrincipal)
+        //{
+        //    return this.userManager.GetUserId(claimsPrincipal);
+        //}
 
         public async Task<User> UpdateFirstName(string userId, string name)
         {

@@ -40,5 +40,11 @@
         public DateTime? ModifiedOn { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public bool IsAdmin { get; set; }
+
+        public bool IsSupport { get; set; }
+
+        public bool IsAccountLocked { get; set; }
     }
 }

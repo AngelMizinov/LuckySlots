@@ -1,17 +1,21 @@
 ﻿namespace LuckySlots.Services.Contracts
 {
     using LuckySlots.Data.Models;
+    using LuckySlots.Services.Models;
+    using Microsoft.AspNetCore.Identity;
     using System.Linq;
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     public interface IUserManagementServices
     {
-        IQueryable<User> GetAllUsers();
+        Task<IQueryable<UserListViewModel>> GetAllUsersAsync();
+
+        Task<IdentityResult> ToggleRole(User user, string role);
 
         Task<User> UpdateFirstName(string userId, string name);
 
         Task<User> UpdateLastName(string userId, string name);
-        object GetUserIdAsync(ClaimsPrincipal user);
+
+        //Task<string> GetUserIdAsync(ClaimsPrincipal claimsPrincipal);
     }
 }

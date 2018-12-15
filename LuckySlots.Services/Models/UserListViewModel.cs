@@ -1,4 +1,4 @@
-﻿namespace LuckySlots.App.Areas.Admin.Models
+﻿namespace LuckySlots.Services.Models
 {
     public class UserListViewModel
     {
