@@ -3,6 +3,7 @@
     using LuckySlots.Data;
     using LuckySlots.Data.Models;
     using LuckySlots.Infrastructure.Enums;
+    using LuckySlots.Services.Infrastructure.Exceptions;
     using LuckySlots.Services.Transactions;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -44,6 +45,30 @@
             using (var assertDbContext = new LuckySlotsDbContext(GetDbContextOptions(dbName)))
             {
                 Assert.IsNotNull(assertDbContext.Transactions.Where(t => t.UserId.ToString() == userId));
+            }
+        }
+
+        [TestMethod]
+        public async Task ThrowsException_When_UserDoesntExists()
+        {
+            // Arrange & Act & Assert
+            var dbName = Guid.NewGuid().ToString();
+            var userId = Guid.NewGuid().ToString();
+
+            using (var context = new LuckySlotsDbContext(GetDbContextOptions(dbName)))
+            {
+                var userStore = new UserStore<User>(context);
+                var userManager = new UserManager<User>(userStore, null, null, null, null, null, null, null, null);
+
+                var user = new User
+                {
+                    Id = userId
+                };
+                
+                var sut = new TransactionServices(context, userManager);
+               
+                await Assert.ThrowsExceptionAsync<UserDoesntExistsException>(() =>
+                    sut.CreateAsync(userId, TransactionType.Deposit, 100m, "Valid desctiption"));
             }
         }
 

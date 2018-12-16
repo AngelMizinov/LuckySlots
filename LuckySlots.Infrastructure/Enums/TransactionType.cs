@@ -8,6 +8,7 @@ namespace LuckySlots.Infrastructure.Enums
     {
         Stake,
         Win,
-        Deposit
+        Deposit,
+        Withdrawal
     }
 }

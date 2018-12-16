@@ -10,7 +10,8 @@
                     {
                         columns.Bound(t => t.Date).Title("Transaction date").Format("{0:dd/MM/yyyy h:mm:ss tt}");
                         columns.Bound(t => t.Type);
-                        columns.Bound(t => t.QuotedCurrencyAmount).Format("{0:c}").Title("Ccy");
+                        columns.Bound(t => t.QuotedCurrencyAmount).Format("{0:n}").Title("Amount");
+                        columns.Bound(t => t.QuotedCurrency).Title("Ccy");
                         columns.Bound(t => t.Description);
                     })
                     .HtmlAttributes(new { @class = "bg-dark text-warning" })

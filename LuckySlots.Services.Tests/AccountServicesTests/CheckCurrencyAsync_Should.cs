@@ -1,4 +1,4 @@
-namespace LuckySlots.Services.Tests.AccountServicesTests
+﻿namespace LuckySlots.Services.Tests.AccountServicesTests
 {
     using LuckySlots.Data;
     using LuckySlots.Data.Models;
@@ -14,17 +14,17 @@ namespace LuckySlots.Services.Tests.AccountServicesTests
     using System.Threading.Tasks;
 
     [TestClass]
-    public class CheckBalanceAsync_Should
+    public class CheckCurrencyAsync_Should
     {
         private DbContextOptions<LuckySlotsDbContext> GetDbContextOptions(string dbName)
            => new DbContextOptionsBuilder<LuckySlotsDbContext>()
            .UseInMemoryDatabase(databaseName: dbName)
            .Options;
-        
+
         [TestMethod]
-        public async Task Returns_AccountBalance()
+        public async Task Returns_CorrectCurrency()
         {
-            var options = GetDbContextOptions("Returns_AccountBalance");
+            var options = GetDbContextOptions("Returns_CorrectCurrency");
 
             var mockTransactionServices = new Mock<ITransactionServices>();
             var mockCreditCardServices = new Mock<ICreditCardService>();
@@ -33,10 +33,11 @@ namespace LuckySlots.Services.Tests.AccountServicesTests
             var user = new User()
             {
                 Id = "1",
-                AccountBalance = 450
+                AccountBalance = 450,
+                Currency = "BGN"
             };
 
-            decimal expectedBalance;
+            string expectedCurrency;
             using (var actContext = new LuckySlotsDbContext(options))
             {
                 await actContext.Users.AddAsync(user);
@@ -44,14 +45,14 @@ namespace LuckySlots.Services.Tests.AccountServicesTests
 
                 var sut = new AccountService(actContext, mockTransactionServices.Object, mockCreditCardServices.Object,
                     mockJsonParser.Object);
-                expectedBalance = await sut.CheckBalanceAsync(user.Id);
+                expectedCurrency = await sut.CheckCurrencyAsync(user.Id);
             }
 
-            Assert.AreEqual(expectedBalance, user.AccountBalance);
+            Assert.AreEqual(expectedCurrency, user.Currency);
         }
 
         [TestMethod]
-        public async Task Returns_Zero_IfUserDoesntExists()
+        public async Task Returns_Null_IfUserDoesntExists()
         {
             var options = GetDbContextOptions("Returns_Null_IfUserDoesntExists");
 
@@ -62,18 +63,18 @@ namespace LuckySlots.Services.Tests.AccountServicesTests
             var user = new User()
             {
                 Id = "1",
-                AccountBalance = 450
+                Currency = "BGN"
             };
 
-            decimal expectedBalance;
+            string expectedCurrency;
             using (var actContext = new LuckySlotsDbContext(options))
             {
                 var sut = new AccountService(actContext, mockTransactionServices.Object, mockCreditCardServices.Object,
                     mockJsonParser.Object);
-                expectedBalance = await sut.CheckBalanceAsync(user.Id);
+                expectedCurrency = await sut.CheckCurrencyAsync(user.Id);
             }
 
-            Assert.AreEqual(expectedBalance, 0);
+            Assert.AreEqual(expectedCurrency, null);
         }
     }
 }

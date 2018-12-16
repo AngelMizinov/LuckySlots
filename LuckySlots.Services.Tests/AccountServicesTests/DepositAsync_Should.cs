@@ -6,6 +6,7 @@ namespace LuckySlots.Services.Tests.AccountServicesTests
     using LuckySlots.Infrastructure.Providers;
     using LuckySlots.Services.Account;
     using LuckySlots.Services.Contracts;
+    using LuckySlots.Services.Infrastructure.Exceptions;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
@@ -44,30 +45,25 @@ namespace LuckySlots.Services.Tests.AccountServicesTests
                 .ReturnsAsync(exchangeRate);
 
             decimal expectedBalance;
-
             using (var actContext = new LuckySlotsDbContext(options))
             {
                 await actContext.Users.AddAsync(user);
                 await actContext.SaveChangesAsync();
 
-                var accountService = new AccountService(actContext, mockTransactionServices.Object, mockCreditCardServices.Object,
+                var sut = new AccountService(actContext, mockTransactionServices.Object, mockCreditCardServices.Object,
                     mockJsonParser.Object);
-                expectedBalance = await accountService.DepositAsync(user.Id, 250, TransactionType.Deposit);
+                expectedBalance = await sut.DepositAsync(user.Id, 250, TransactionType.Deposit);
             }
 
             var newBalance = user.AccountBalance;
 
-            using (var assertContext = new LuckySlotsDbContext(options))
-            {
-                Assert.AreEqual(expectedBalance, newBalance);
-            }
+            Assert.AreEqual(expectedBalance, newBalance);
         }
 
-        // TODO: Verify that is created transaction (NOT that is called CreateTransaction)
         [TestMethod]
-        public async Task CallCreateTransaction_When_IsExecuted()
+        public async Task CreateTransaction_When_IsExecuted()
         {
-            var options = GetDbContextOptions("CallCreateTransaction_When_IsExecuted");
+            var options = GetDbContextOptions("CreateTransaction_When_IsExecuted");
 
             var mockTransactionServices = new Mock<ITransactionServices>();
             var mockCreditCardServices = new Mock<ICreditCardService>();
@@ -93,14 +89,55 @@ namespace LuckySlots.Services.Tests.AccountServicesTests
 
             using (var assertContext = new LuckySlotsDbContext(options))
             {
-                var accountService = new AccountService(assertContext, mockTransactionServices.Object, mockCreditCardServices.Object,
+                var sut = new AccountService(assertContext, mockTransactionServices.Object, mockCreditCardServices.Object,
                     mockJsonParser.Object);
-                var expectedBalance = await accountService.ChargeAccountAsync(user.Id, 200, TransactionType.Stake);
+                var expectedBalance = await sut.ChargeAccountAsync(user.Id, 200, TransactionType.Stake);
 
-                mockTransactionServices.Verify(transServices => transServices.CreateAsync(It.IsAny<string>(), It.IsAny<TransactionType>(),
-                    It.IsAny<decimal>(), It.IsAny<string>()), Times.Once());
+                var transactionsNum = await assertContext.Transactions.CountAsync();
+
+                Assert.IsTrue(transactionsNum == 1);
             }
         }
+
+        // TODO: Test if throws TransactionFailedException
+        //[TestMethod]
+        public void ThrowsException_When_TrasanctionIsNotAdded()
+        {
+
+        }
+
+        [TestMethod]
+        public async Task ThrowsException_When_UserDoesntExists()
+        {
+            var options = GetDbContextOptions("ThrowsException_When_UserDoesntExists");
+
+            var mockTransactionServices = new Mock<ITransactionServices>();
+            var mockCreditCardServices = new Mock<ICreditCardService>();
+            var mockJsonParser = new Mock<IJsonParser>();
+
+            var user = new User()
+            {
+                Id = "1",
+                AccountBalance = 300
+            };
+
+            double exchangeRate = 1.56;
+
+            mockJsonParser
+                .Setup(jp => jp.ExtractExchangeRate(It.IsAny<string>()))
+                .ReturnsAsync(exchangeRate);
+
+            using (var assertContext = new LuckySlotsDbContext(options))
+            {
+                var sut = new AccountService(assertContext, mockTransactionServices.Object, mockCreditCardServices.Object,
+                    mockJsonParser.Object);
+
+                await Assert.ThrowsExceptionAsync<UserDoesntExistsException>(() =>
+                    sut.ChargeAccountAsync(user.Id, 200, TransactionType.Stake));
+
+            }
+        }
+
 
     }
 }
