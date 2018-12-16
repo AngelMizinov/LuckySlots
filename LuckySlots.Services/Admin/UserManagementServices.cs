@@ -43,52 +43,51 @@
                 }));
 
         //public async Task<bool> ToggleRole(User user, string role);
-        //public async Task<EntityEntry<IdentityUserRole<string>>> ToggleRole(User user, string roleName)
-        //{
-        //    try
-        //    {
-        //        if (user == null)
-        //        {
-        //            throw new NullReferenceException("User cannot be null.");
-        //        }
+        public async Task<EntityEntry<IdentityUserRole<string>>> ToggleRole(User user, string roleName)
+        {
+            try
+            {
+                if (user == null)
+                {
+                    throw new NullReferenceException("User cannot be null.");
+                }
 
-        //        var existingRole = await this.Context.Roles.FirstOrDefaultAsync(x => x.Name == roleName);
+                var existingRole = await this.Context.Roles.FirstOrDefaultAsync(x => x.Name == roleName);
 
-        //        if (existingRole == null)
-        //        {
-        //            throw new ArgumentException("Role does not exist.");
-        //        }
+                if (existingRole == null)
+                {
+                    throw new ArgumentException("Role does not exist.");
+                }
 
-        //        var isInRole = await Context.UserRoles.AnyAsync(x => x.UserId == user.Id && x.RoleId == existingRole.Id);
+                var isInRole = await Context.UserRoles.AnyAsync(x => x.UserId == user.Id && x.RoleId == existingRole.Id);
 
-        //        if (isInRole == true)
-        //        {
-        //            throw new ArgumentException($"User {user.UserName} is already in role {roleName}.");
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
+                if (isInRole == true)
+                {
+                    throw new ArgumentException($"User {user.UserName} is already in role {roleName}.");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
-        //    await this.userManager.AddToRoleAsync(user, role);
-        //    await this.Context.SaveChangesAsync();
+            //await this.userManager.AddToRoleAsync(user, role);
+            //await this.Context.SaveChangesAsync();
 
-        //    return user.IsSupport;
-        //    var role = await this.Context.Roles.FirstOrDefaultAsync(r => r.Name == roleName);
+            var role = await this.Context.Roles.FirstOrDefaultAsync(r => r.Name == roleName);
 
-        //    var userRole = new IdentityUserRole<string>()
-        //    {
-        //        RoleId = role.Id.ToString(),
-        //        UserId = user.Id
-        //    };
+            var userRole = new IdentityUserRole<string>()
+            {
+                RoleId = role.Id.ToString(),
+                UserId = user.Id
+            };
 
-        //    var result =  await this.Context.UserRoles.AddAsync(userRole);
-        //    await this.Context.SaveChangesAsync();
+            var result = await this.Context.UserRoles.AddAsync(userRole);
+            await this.Context.SaveChangesAsync();
 
-        //    return result;
-        //    //return await this.userManager.AddToRoleAsync(user, role);
-        //}
+            return result;
+            //return await this.userManager.AddToRoleAsync(user, role);
+        }
 
         public async Task<User> UpdateFirstName(string userId, string name)
         {
