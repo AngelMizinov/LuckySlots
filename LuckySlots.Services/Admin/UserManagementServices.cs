@@ -40,7 +40,7 @@
                     IsAccountLocked = u.IsAccountLocked
                 }));
 
-        public async Task<IdentityResult> ToggleRole(User user, string role)
+        public async Task<bool> ToggleRole(User user, string role)
         {
             try
             {
@@ -69,7 +69,10 @@
                 throw;
             }
 
-            return await this.userManager.AddToRoleAsync(user, role);
+            await this.userManager.AddToRoleAsync(user, role);
+            await this.Context.SaveChangesAsync();
+
+            return user.IsSupport;
         }
 
         //public async Task<string> GetUserIdAsync(ClaimsPrincipal claimsPrincipal)
@@ -99,6 +102,34 @@
             user.LastName = name;
 
             await this.Context.SaveChangesAsync();
+
+            return user;
+        }
+
+        public async Task<bool> ToggleUserLock(string userId)
+        {
+            var user = await this.userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new Exception("User does not exist.");
+            }
+
+            user.IsAccountLocked = !user.IsAccountLocked;
+
+            await this.Context.SaveChangesAsync();
+
+            return user.IsAccountLocked; 
+        }
+
+        public async Task<User> GetUserByIdAsync(string userId)
+        {
+            var user = await this.userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentException("User does not exits.");
+            }
 
             return user;
         }

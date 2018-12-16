@@ -8,14 +8,16 @@
 
     public interface IUserManagementServices
     {
+        Task<User> GetUserByIdAsync(string userId);
+
         Task<IQueryable<UserListViewModel>> GetAllUsersAsync();
 
-        Task<IdentityResult> ToggleRole(User user, string role);
+        Task<bool> ToggleRole(User user, string role);
 
         Task<User> UpdateFirstName(string userId, string name);
 
         Task<User> UpdateLastName(string userId, string name);
 
-        //Task<string> GetUserIdAsync(ClaimsPrincipal claimsPrincipal);
+        Task<bool> ToggleUserLock(string userId);
     }
 }

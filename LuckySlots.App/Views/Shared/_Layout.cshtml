@@ -14,6 +14,7 @@
     <!-- Theme CSS Files -->
     <link href="~/lib/theme/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/lib/theme/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+    <link href="~/css/mdb.min.css" rel="stylesheet" />
     <link href="~/css/site.css" rel="stylesheet" />
 
     <!-- Kendo styles -->
@@ -22,16 +23,10 @@
 
     <link rel="stylesheet" href="~/css/site.css" />
 
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="dist/jquery.payform.js"></script>
-
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>*@
-
-
     <script src="~/lib/kendo-ui/js/jquery.min.js"></script>
-    @*<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>*@
-
 
     <!-- Kendo scripts -->
     <script src="~/lib/kendo-ui/js/kendo.web.min.js"></script>
@@ -166,6 +161,7 @@
                 </div>
             </nav>
             <!-- End Navbar -->
+            <partial name="_CookieConsentPartial" />
 
             <div class="content">
                 @RenderBody()
@@ -187,17 +183,11 @@
         </div>
     </div>
 
-    <!-- Core JS Files -->
-    @*<script src="~/lib/theme/js/core/jquery.min.js"></script>
-            <script src="~/lib/theme/js/core/popper.min.js"></script>
-            <script src="~/lib/theme/js/core/bootstrap.min.js"></script>
-            <script src="~/lib/theme/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-
-        @*<script src="~/lib/theme/js/core/popper.min.js"></script>
-            <script src="~/lib/theme/js/core/bootstrap.min.js"></script>*@
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <script src="~/js/mdb.min.js"></script>
+
     <script src="~/lib/theme/js/plugins/perfect-scrollbar.jquery.min.js"></script>
 
     <!-- Chart JS -->
@@ -206,22 +196,10 @@
     <script src="~/theme/js/plugins/bootstrap-notify.js"></script>
     <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="~/lib/theme/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
-    <<<<<<< HEAD
-    @*
-    <script src="~/js/snowstorm.js"></script>*@
-    =======
-    >>>>>>> 4546fa95faec83a38965622ef7c91fe4a6a3f1e3
-
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.0.1/jquery.payment.min.js"></script>
-
-
-    @*<script src="~/Scripts/jquery.js"></script>
-        <script src="~/Scripts/jquery.validate.js"></script>
-        <script src="~/Scripts/additional-methods.js"></script>
-        <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
 
     <!-- at the end of BODY -->
     <!-- CSS is included via this JavaScript file -->
@@ -247,35 +225,3 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
-
-
-@*<body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a asp-area="" asp-page="/Home/Index" class="nav-link waves-effect">Home</a>
-                    </li>
-                </ul>
-                <partial name="_LoginPartial" />
-            </div>
-        </nav>
-
-        <partial name="_CookieConsentPartial" />
-
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; 2018 - LuckySlots.App</p>
-            </footer>
-        </div>
-
-        @RenderSection("Scripts", required: false)
-    </body>*@
-
-

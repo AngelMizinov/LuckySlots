@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<UserListViewModel>
+@{
     ViewData["Title"] = "All";
 }
 
@@ -13,42 +14,101 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <label class="bs-switch">
-                <input type="checkbox">
-                <span class="slider round"></span>
-            </label>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 offset-md-1">
+                        <label class="bs-switch">Admin:</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="bs-switch">
+                            <input id="admin-role-toggle" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 offset-md-1">
+                        <label class="bs-switch">Support:</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="bs-switch">
+                            <input id="support-role-toggle" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 offset-md-1">
+                        <label class="bs-switch">Lock user:</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="bs-switch">
+                            <input id="lock-account-toggle" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-
+<table class="table table-striped table-hover table-dark text-warning">
+    <thead class="text-white">
+        <tr>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Email</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.Email</td>
+                <td><button class="btn-sm btn-warning">Edit</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 @(Html.Kendo()
-            .Grid<UserListViewModel>()
-            .Name("Users")
-            .Columns(columns =>
+    .Grid<UserListViewModel>()
+    .Name("Users")
+    .Columns(columns =>
+    {
+        columns.Bound(u => u.FirstName);
+        columns.Bound(u => u.LastName);
+        columns.Bound(u => u.Email);
+        columns.Template("<button type=\"button\" class=\"btn btn-warining btn-sm\" data-toggle=\"modal\" data-target=\".bd-example-modal-sm\">Edit</button>");
+    })
+    .HtmlAttributes(new { @class = "bg-dark text-warning" })
+    .Pageable(page => page.PageSizes(new[] { 5, 10, 15 }))
+    .Filterable(f => f.Mode(GridFilterMode.Menu))
+    .Groupable()
+    .Sortable()
+    .ToolBar(tool =>
+    {
+        tool.Pdf().Text("Create PDF");
+    })
+    .DataSource(data =>
+    {
+        data
+            .Ajax()
+            .Read(read =>
             {
-                columns.Bound(u => u.FirstName);
-                columns.Bound(u => u.LastName);
-                columns.Bound(u => u.Email);
-                columns.Template("<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\".bd-example-modal-sm\">Edit</button>");
-            })
-            .HtmlAttributes(new { @class = "bg-dark text-warning" })
-            .Pageable(page => page.PageSizes(new[] { 5, 10, 15 }))
-            .Filterable(f => f.Mode(GridFilterMode.Menu))
-            .Groupable()
-            .Sortable()
-            .ToolBar(tool =>
-            {
-                tool.Pdf().Text("Create PDF");
-            })
-            .DataSource(data =>
-            {
-                data
-                    .Ajax()
-                    .Read(read =>
-                    {
-                        read.Action("ReadUsers", "Users", new { Area = "Admin" });
-                    });
-            })
+                read.Action("ReadUsers", "Users", new { Area = "Admin" });
+            });
+    })
 )
+
+@section Scripts {
+    <script type="text/javascript">
+        $('#Users').on('click', 'td' , function () {
+            alert($(this).html)
+        })
+    </script>
+}

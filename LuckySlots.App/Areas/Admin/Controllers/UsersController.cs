@@ -7,6 +7,8 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+    using System.Linq;
+    using LuckySlots.App.Areas.Admin.Models;
 
     [Area("Admin")]
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
@@ -22,9 +24,10 @@
             this.userManagementServices = userManagementServices;
         }
 
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            return View();
+            var users = await this.userManagementServices.GetAllUsersAsync();
+            return View(users.ToList());
         }
 
         [HttpPost]
@@ -34,9 +37,36 @@
             return Json(users.ToDataSourceResult(request));
         }
 
-        public IActionResult ManageUser(string id)
+        public async Task<IActionResult> Details([FromQuery]string userId)
         {
-            return View();
+            var user = await this.userManagementServices.GetUserByIdAsync(userId);
+
+            var vm = new ManageUserViewModel
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                IsAdmin = user.IsAdmin,
+                IsSupport = user.IsSupport,
+                IsAccountLocked = user.IsAccountLocked
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Details(ManageUserViewModel model)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return View();
+            }
+
+            var user = await this.userManagementServices.GetUserByIdAsync(model.Id);
+
+            await this.userManagementServices.ToggleRole(user, "Support");
+
+            return RedirectToAction(nameof(All));
         }
 
         [HttpPost]
