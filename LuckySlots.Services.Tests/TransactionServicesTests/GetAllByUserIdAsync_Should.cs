@@ -2,6 +2,7 @@
 {
     using LuckySlots.Data;
     using LuckySlots.Data.Models;
+    using LuckySlots.Infrastructure.Enums;
     using LuckySlots.Services.Transactions;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
@@ -23,11 +24,21 @@
             var userManagerMoq = new UserManager<User>(userStoreMoq, null, null, null, null, null, null, null, null);
             var transactions = new List<Transaction>();
             var dbContextName = Guid.NewGuid().ToString();
-            var correctUserId = Guid.NewGuid();
-            var incorrectUserId = Guid.NewGuid();
+            var incorrectUserId = Guid.NewGuid().ToString();
 
             using (var arrangeDbContext = new LuckySlotsDbContext(GetDbContextOptions(dbContextName)))
             {
+                var user = new User()
+                {
+                    FirstName = "Angel",
+                    LastName = "Mizinov"
+                };
+
+                await arrangeDbContext.Users.AddAsync(user);
+                await arrangeDbContext.SaveChangesAsync();
+
+                var correctUserId = user.Id;
+
                 for (int i = 0; i < 10; i++)
                 {
                     var id = (i & 1) == 0 ? correctUserId : incorrectUserId;
@@ -35,7 +46,8 @@
                     var transaction = new Transaction
                     {
                         UserId = id.ToString(),
-                        Amount = i + 1 * 100
+                        Amount = i + 1 * 100,
+                        Type = TransactionType.Deposit.ToString()
                     };
 
                     transactions.Add(transaction);
@@ -43,16 +55,13 @@
 
                 await arrangeDbContext.AddRangeAsync(transactions);
                 await arrangeDbContext.SaveChangesAsync();
-            }
 
-            // Act and Assert
-            using (var assertDbContext = new LuckySlotsDbContext(GetDbContextOptions(dbContextName)))
-            {
-                var sut = new TransactionServices(assertDbContext, userManagerMoq);
+                var sut = new TransactionServices(arrangeDbContext, userManagerMoq);
                 var expected = 5;
-                var result = await sut.GetAllByUserIdAsync(correctUserId.ToString());
+                var result = await sut.GetAllByUserIdAsync(correctUserId);
+                var materializeResult = result.ToList();
 
-                Assert.IsTrue(expected == result.Count());
+                Assert.IsTrue(expected == materializeResult.Count);
             }
         }
 

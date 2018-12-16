@@ -4,9 +4,11 @@
     using LuckySlots.Data.Models;
     using LuckySlots.Services.Abstract;
     using LuckySlots.Services.Contracts;
+    using LuckySlots.Services.Infrastructure.Exceptions;
     using LuckySlots.Services.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.ChangeTracking;
     using System;
     using System.Linq;
     using System.Security.Claims;
@@ -40,7 +42,7 @@
                     IsAccountLocked = u.IsAccountLocked
                 }));
 
-        public async Task<IdentityResult> ToggleRole(User user, string role)
+        public async Task<EntityEntry<IdentityUserRole<string>>> ToggleRole(User user, string roleName)
         {
             try
             {
@@ -49,27 +51,38 @@
                     throw new NullReferenceException("User cannot be null.");
                 }
 
-                var existingRole = await this.roleManager.FindByNameAsync(role);
+                var existingRole = await this.Context.Roles.FirstOrDefaultAsync(x => x.Name == roleName);
 
                 if (existingRole == null)
                 {
                     throw new ArgumentException("Role does not exist.");
                 }
 
-                var isInRole = await this.userManager.IsInRoleAsync(user, role);
+                var isInRole = await Context.UserRoles.AnyAsync(x => x.UserId == user.Id && x.RoleId == existingRole.Id);
 
                 if (isInRole == true)
                 {
-                    throw new ArgumentException($"User {user.UserName} is already in role {role}.");
+                    throw new ArgumentException($"User {user.UserName} is already in role {roleName}.");
                 }
             }
             catch (Exception)
             {
-
                 throw;
             }
 
-            return await this.userManager.AddToRoleAsync(user, role);
+            var role = await this.Context.Roles.FirstOrDefaultAsync(r => r.Name == roleName);
+
+            var userRole = new IdentityUserRole<string>()
+            {
+                RoleId = role.Id.ToString(),
+                UserId = user.Id
+            };
+
+            var result =  await this.Context.UserRoles.AddAsync(userRole);
+            await this.Context.SaveChangesAsync();
+
+            return result;
+            //return await this.userManager.AddToRoleAsync(user, role);
         }
 
         //public async Task<string> GetUserIdAsync(ClaimsPrincipal claimsPrincipal)
@@ -79,9 +92,19 @@
 
         public async Task<User> UpdateFirstName(string userId, string name)
         {
+            if(name == null)
+            {
+                throw new ArgumentException("Name cannot be null.");
+            }
+
             var user = await this.Context.Users
                 .Where(us => us.Id == userId)
                 .FirstOrDefaultAsync();
+
+            if(user == null || user.IsDeleted == true)
+            {
+                throw new UserDoesntExistsException("User with this id does not exists.");
+            }
 
             user.FirstName = name;
 
@@ -92,9 +115,19 @@
 
         public async Task<User> UpdateLastName(string userId, string name)
         {
+            if (name == null)
+            {
+                throw new ArgumentException("Name cannot be null.");
+            }
+
             var user = await this.Context.Users
                 .Where(us => us.Id == userId)
                 .FirstOrDefaultAsync();
+
+            if (user == null || user.IsDeleted == true)
+            {
+                throw new UserDoesntExistsException("User with this id does not exists.");
+            }
 
             user.LastName = name;
 

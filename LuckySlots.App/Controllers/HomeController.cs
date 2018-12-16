@@ -43,16 +43,6 @@
         [HttpPost]
         public async Task<IActionResult> Index(ValidationModalViewModel validationModel)
         {
-            //CHECK API
-            //var result = await this.parser.ExtractExchangeRate("EUR");
-            //return Content(result.ToString());
-
-            //GET CURRENT USER
-            //var currUser = await this.userManager.GetUserAsync(this.User);
-
-            //JUST TRY DEPOSIT
-            //await this.accountService.DepositAsync(currUser.Id, 300, TransactionType.Deposit);
-
             this.ViewBag.IsCalledFirstTime = false;
             this.ViewBag.IsValid = true;
 
@@ -72,28 +62,28 @@
             return View();
         }
 
-        [Authorize]
-        [HttpGet]
-        public IActionResult Deposit()
-        {
-            ViewData["Message"] = "Your application deposit page.";
+        //[Authorize]
+        //[HttpGet]
+        //public IActionResult Deposit()
+        //{
+        //    ViewData["Message"] = "Your application deposit page.";
 
-            return RedirectToAction(nameof(DepositSuccessful));
-        }
+        //    return RedirectToAction(nameof(DepositSuccessful));
+        //}
 
-        public IActionResult DepositSuccessful()
-        {
-            return RedirectToAction(nameof(Deposit));
-        }
+        //public IActionResult DepositSuccessful()
+        //{
+        //    return RedirectToAction(nameof(Deposit));
+        //}
 
-        [Authorize]
-        [HttpPost]
-        public IActionResult Deposit(DepositViewModel model)
-        {
-            ViewData["Message"] = "Your application deposit page.";
+        //[Authorize]
+        //[HttpPost]
+        //public IActionResult Deposit(DepositViewModel model)
+        //{
+        //    ViewData["Message"] = "Your application deposit page.";
 
-            return View();
-        }
+        //    return View();
+        //}
 
         public IActionResult About()
         {
@@ -105,27 +95,27 @@
             return View();
         }
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
+        //public IActionResult Contact()
+        //{
+        //    ViewData["Message"] = "Your contact page.";
 
-            if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
-            {
-                return PartialView();
-            }
+        //    if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
+        //    {
+        //        return PartialView();
+        //    }
 
-            return View();
-        }
+        //    return View();
+        //}
 
-        public IActionResult Privacy()
-        {
-            if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
-            {
-                return PartialView();
-            }
+        //public IActionResult Privacy()
+        //{
+        //    if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
+        //    {
+        //        return PartialView();
+        //    }
 
-            return View();
-        }
+        //    return View();
+        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

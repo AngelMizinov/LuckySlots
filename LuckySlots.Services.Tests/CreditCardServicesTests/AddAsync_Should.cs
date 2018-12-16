@@ -21,9 +21,9 @@
             .Options;
 
         [TestMethod]
-        public async Task CreateCreditCard_When_IsInvoked()
+        public async Task CreateCreditCard_When_IsCalled()
         {
-            var options = GetDbContextOptions("CreateCreditCard_When_IsInvoked");
+            var options = GetDbContextOptions("CreateCreditCard_When_IsCalled");
             var userId = Guid.NewGuid().ToString();
 
             var card = new CreditCard()
@@ -34,17 +34,17 @@
                 Expiry = new DateTime(2019, 5, 1)
             };
 
-            var cardFromService = new CreditCard();
             using (var actContext = new LuckySlotsDbContext(options))
             {
-                var creditCardService = new CreditCardService(actContext);
-                cardFromService = await creditCardService.AddAsync(card.Number, card.CVV, card.UserId, card.Expiry);
+                var sut = new CreditCardService(actContext);
+                await sut.AddAsync(card.Number, card.CVV, card.UserId, card.Expiry);
             }
 
             // Assert
             using (var assertContext = new LuckySlotsDbContext(options))
             {
-                Assert.IsInstanceOfType(cardFromService, typeof(CreditCard));
+                var cardsNumber = await assertContext.CreditCards.CountAsync();
+                Assert.IsTrue(cardsNumber == 1);
             }
         }
 
@@ -62,7 +62,6 @@
                 Expiry = new DateTime(2019, 5, 1)
             };
 
-            var cardFromService = new CreditCard();
             using (var actContext = new LuckySlotsDbContext(options))
             {
                 await actContext.CreditCards.AddAsync(card);
@@ -72,10 +71,57 @@
             // Assert
             using (var assertContext = new LuckySlotsDbContext(options))
             {
-                var creditCardService = new CreditCardService(assertContext);
+                var sut = new CreditCardService(assertContext);
 
                 await Assert.ThrowsExceptionAsync<CreditCardAlreadyExistsException>(() =>
-                creditCardService.AddAsync(card.Number, card.CVV, card.UserId, card.Expiry));
+                    sut.AddAsync(card.Number, card.CVV, card.UserId, card.Expiry));
+            }
+        }
+
+        [TestMethod]
+        public async Task ThrowsException_When_CardNumberIsNull()
+        {
+            var options = GetDbContextOptions("ThrowsException_When_CardNumberIsNull");
+            var userId = Guid.NewGuid().ToString();
+
+            var card = new CreditCard()
+            {
+                Number = null,
+                CVV = 123,
+                UserId = userId,
+                Expiry = new DateTime(2019, 5, 1)
+            };
+            
+            // Assert
+            using (var assertContext = new LuckySlotsDbContext(options))
+            {
+                var sut = new CreditCardService(assertContext);
+
+                await Assert.ThrowsExceptionAsync<CreditCardDoesntExistsException>(() =>
+                    sut.AddAsync(card.Number, card.CVV, card.UserId, card.Expiry));
+            }
+        }
+
+        [TestMethod]
+        public async Task ThrowsException_When_UserIdIsNull()
+        {
+            var options = GetDbContextOptions("ThrowsException_When_UserIdIsNull");
+            
+            var card = new CreditCard()
+            {
+                Number = "1111 2222 3333 4444",
+                CVV = 123,
+                UserId = null,
+                Expiry = new DateTime(2019, 5, 1)
+            };
+
+            // Assert
+            using (var assertContext = new LuckySlotsDbContext(options))
+            {
+                var sut = new CreditCardService(assertContext);
+
+                await Assert.ThrowsExceptionAsync<UserDoesntExistsException>(() =>
+                    sut.AddAsync(card.Number, card.CVV, card.UserId, card.Expiry));
             }
         }
 

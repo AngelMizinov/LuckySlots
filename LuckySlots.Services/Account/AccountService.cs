@@ -74,8 +74,8 @@
 
             if (createTransactionResult == null)
             {
-                // TODO: Create custom exception and Try/Catch it
-                throw new Exception("Failed to add the new transaction to the DB.");
+                // TODO: Try/Catch the exception
+                throw new TransactionFailedException("Failed to add the new transaction to the DB.");
             }
 
             await this.Context.SaveChangesAsync();
@@ -151,8 +151,8 @@
 
             if (createTransactionResult == null)
             {
-                // TODO: Create custom exception and Try/Catch it
-                throw new Exception("Failed to add the new transaction to the DB.");
+                // TODO: Try/Catch it the exception
+                throw new TransactionFailedException("Failed to add the new transaction to the DB.");
             }
 
             user.AccountBalance += amount;

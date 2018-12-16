@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
     using LuckySlots.Data.Models;
     using LuckySlots.Services.CreditCard;
+    using LuckySlots.Services.Infrastructure.Exceptions;
 
     [TestClass]
     public class GetLastForDigitsOfCardNumberAsync_Should
@@ -33,7 +34,6 @@
             };
 
             var cardNumber = string.Empty;
-            
             // Act
             using (var actContext = new LuckySlotsDbContext(options))
             {
@@ -42,14 +42,38 @@
 
                 var addedCardId = addedCard.Entity.Id.ToString();
 
-                var creditCardService = new CreditCardService(actContext);
-                cardNumber = await creditCardService.GetLastForDigitsOfCardNumberAsync(addedCardId);
+                var sut = new CreditCardService(actContext);
+                cardNumber = await sut.GetLastForDigitsOfCardNumberAsync(addedCardId);
             }
 
-            // Assert
-            using (var assertContext = new LuckySlotsDbContext(options))
+            Assert.IsTrue(cardNumber == card.Number.Substring(card.Number.Length - 4));
+        }
+
+        [TestMethod]
+        public async Task ThrowsException_IfCardId_IsNull()
+        {
+            var options = GetDbContextOptions("ThrowsException_IfCardId_IsNull");
+            var userId = Guid.NewGuid().ToString();
+
+            List<CreditCard> cards = new List<CreditCard>();
+
+            for (int i = 0; i < 2; i++)
             {
-                Assert.IsTrue(cardNumber == card.Number.Substring(card.Number.Length - 4));
+                cards.Add(new CreditCard()
+                {
+                    Number = $"1111 2222 3333 744{i}",
+                    CVV = (128 + i),
+                    UserId = userId,
+                    Expiry = new DateTime(2020, 12, 1 + i)
+                });
+            }
+            
+            using (var actContext = new LuckySlotsDbContext(options))
+            {
+                var sut = new CreditCardService(actContext);
+
+                await Assert.ThrowsExceptionAsync<CreditCardDoesntExistsException>(() =>
+                    sut.GetLastForDigitsOfCardNumberAsync(null));
             }
         }
     }

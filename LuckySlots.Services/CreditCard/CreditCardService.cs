@@ -34,21 +34,36 @@
 
         public async Task<string> GetLastForDigitsOfCardNumberAsync(string id)
         {
+            if(id == null)
+            {
+                throw new CreditCardDoesntExistsException("Card number cannot be null.");
+            }
+
             var number = await this.Context.CreditCards
                 .Where(card => card.Id == new Guid(id))
                 .Select(card => card.Number)
                 .FirstOrDefaultAsync();
-
+            
             return number.Substring(number.Length - 4);
         }
 
         public async Task<CreditCard> AddAsync(string number, int cvv, string userId, DateTime expiry)
         {
+            if (number == null)
+            {
+                throw new CreditCardDoesntExistsException("Card number cannot be null.");
+            }
+
+            if (userId == null)
+            {
+                throw new UserDoesntExistsException("User Id cannot be null.");
+            }
+
             CreditCard card = await this.GetCreditCardByNumberAsync(number);
 
-            if(card != null)
+            if (card != null)
             {
-                if(card.IsDeleted == true)
+                if (card.IsDeleted == true)
                 {
                     card.IsDeleted = false;
 
@@ -76,12 +91,12 @@
         public async Task DeleteAsync(string id)
         {
             CreditCard card = await this.GetCreditCardByIdAsync(id);
-            
-            if(card == null || card.IsDeleted == true)
+
+            if (card == null || card.IsDeleted == true)
             {
                 throw new CreditCardDoesntExistsException("Credit card with this id does not exists!");
             }
-            
+
             card.IsDeleted = true;
 
             await this.Context.SaveChangesAsync();
@@ -100,7 +115,7 @@
         public async Task<ICollection<CreditCard>> GetAllByUserIdAsync(string userId)
         {
             var cards = await this.Context.CreditCards
-                .Where(crCard => crCard.UserId == userId 
+                .Where(crCard => crCard.UserId == userId
                 && crCard.IsDeleted == false)
                 .ToListAsync();
 

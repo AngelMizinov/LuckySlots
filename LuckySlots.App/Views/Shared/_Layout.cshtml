@@ -55,7 +55,7 @@
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li class="active">
-                        <a asp-area="" asp-controller="Home" asp-action="Index">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" data-url="/home/index">
                             <i class="nc-icon nc-bank"></i>
                             <p>Home</p>
                         </a>
@@ -63,12 +63,12 @@
                     @if (User.Identity.IsAuthenticated && User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
                     {
                         <li>
-                            <a id="profile-page" href="#">
+                            <a id="profile-page" href="#" data-url="/profile/info">
                                 <i class="nc-icon nc-single-02"></i>
                                 <p>Profile</p>
                             </a>
                         </li>
-                    }
+                    }   
 
                     @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
@@ -79,7 +79,7 @@
                             </a>
                         </li>
                         <li id="all-users-id">
-                            <a href="Admin/Users/All">
+                            <a href="#" data-url="/admin/users/all">
                                 <i class="nc-icon nc-credit-card"></i>
                                 <p>Users</p>
                             </a>

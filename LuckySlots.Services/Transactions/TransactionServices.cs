@@ -45,6 +45,7 @@
 
             await this.Context.Transactions.AddAsync(transaction);
             await this.Context.SaveChangesAsync();
+
             return transaction;
         }
 
@@ -66,7 +67,7 @@
                 .Transactions
                 .Where(t => t.UserId == id &&
                     (t.Type == TransactionType.Deposit.ToString() ||
-                    t.Type == TransactionType.Deposit.ToString()))
+                    t.Type == TransactionType.Withdrawal.ToString()))
                 .Select(tr => new TransactionUserListModel
                 {
                     Date = tr.Date,

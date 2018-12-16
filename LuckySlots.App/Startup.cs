@@ -49,6 +49,7 @@
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<LuckySlotsDbContext>()
                 .AddDefaultTokenProviders();
 

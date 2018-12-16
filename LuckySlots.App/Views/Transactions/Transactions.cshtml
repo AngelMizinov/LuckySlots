@@ -7,7 +7,7 @@
     {
         columns.Bound(t => t.Date).Title("Transaction date").Format("{0:dd/MM/yyyy h:mm:ss tt}");
         columns.Bound(t => t.Type);
-        columns.Bound(t => t.BaseCurrencyAmount).Format("{0:c}").Title("Amount");
+        columns.Bound(t => t.BaseCurrencyAmount).Format("{0:n}").Title("Amount");
         columns.Bound(t => t.BaseCurrency).Title("Ccy");
         columns.Bound(t => t.Description);
         columns.Bound(t => t.UserName).Title("User");
