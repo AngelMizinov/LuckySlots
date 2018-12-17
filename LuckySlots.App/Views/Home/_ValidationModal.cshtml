@@ -16,24 +16,14 @@
 
                 <form id="modal-form" asp-controller="Home" asp-action="Index" method="post" class="form-inline justify-content-center">
 
-                    <div class="form-group">
-                        <label asp-for="@Model.Day" class="sr-only"></label>
-                        <input asp-for="@Model.Day" type="number" class="form-control" placeholder="DD">
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="@Model.Month" class="sr-only"></label>
-                        <input asp-for="@Model.Month" type="number" class="form-control" placeholder="MM">
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="@Model.Year" class="sr-only"></label>
-                        <input asp-for="@Model.Year" type="number" class="form-control" placeholder="YYYY">
-                    </div>
-
-                    <div class="container">
-                        <div class="alert-danger" role="alert">
-                            <div asp-validation-summary="All"></div>
+                    <div>
+                        <div class="form-group">
+                            @Html.Kendo().DatePicker().Name("DateOfBirth").HtmlAttributes(new { @class = "form-control bg-dark text-warning", style = "width: 100%;" })
+                            <span asp-validation-for="@Model.DateOfBirth"></span>                        
                         </div>
-
+                    </div>
+                    <div class="container">
+                        
                         @if (TempData["Permission"] != null)
                         {
                             <div class="alert alert-danger" role="alert">

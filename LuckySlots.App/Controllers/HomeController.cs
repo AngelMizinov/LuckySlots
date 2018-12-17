@@ -33,9 +33,7 @@
         [HttpGet]
         public IActionResult Index()
         {
-            // TODO: Consider refactoring
-            this.ViewBag.IsCalledFirstTime = true;
-            this.ViewBag.IsValid = true;
+            this.ViewBag.IsValid = false;
 
             return View("Index");
         }
@@ -43,22 +41,15 @@
         [HttpPost]
         public async Task<IActionResult> Index(ValidationModalViewModel validationModel)
         {
-            this.ViewBag.IsCalledFirstTime = false;
             this.ViewBag.IsValid = true;
 
             if (!this.ModelState.IsValid)
             {
-                this.ViewBag.IsValid = false;
-                return View();
-            }
-
-            if (validationModel.Year > DateTime.Now.Year - 18)
-            {
                 this.TempData["Permission"] = "You must be 18 years old to continue.";
                 this.ViewBag.IsValid = false;
-                return View();
+                return RedirectToAction("Index");
             }
-
+            
             return View();
         }
         
