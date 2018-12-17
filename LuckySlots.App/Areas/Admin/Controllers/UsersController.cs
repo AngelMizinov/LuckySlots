@@ -27,6 +27,12 @@
         public async Task<IActionResult> All()
         {
             var users = await this.userManagementServices.GetAllUsersAsync();
+
+            if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
+            {
+                return PartialView(users.ToList());
+            }
+
             return View(users.ToList());
         }
 

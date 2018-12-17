@@ -34,6 +34,9 @@
         public async Task<IActionResult> Info()
         {
             var currUser = await this.userManager.GetUserAsync(this.User);
+            //
+             //await this.userManagementServices.ToggleRole(currUser, "Administrator");
+            //
 
             var cards = await this.creditCardService.GetAllByUserIdAsync(currUser.Id);
 

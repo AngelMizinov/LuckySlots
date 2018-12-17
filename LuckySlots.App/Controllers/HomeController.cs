@@ -34,7 +34,7 @@
             // TODO: Consider refactoring
             this.ViewBag.IsCalledFirstTime = true;
             this.ViewBag.IsValid = true;
-            return View();
+            return View("Index");
         }
 
         [HttpPost]
@@ -63,7 +63,6 @@
         {
             return View();
         }
-
 
         public IActionResult About()
         {
