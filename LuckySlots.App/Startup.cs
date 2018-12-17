@@ -1,5 +1,6 @@
 ﻿namespace LuckySlots.App
 {
+    using LuckySlots.App.Hubs;
     using LuckySlots.Data;
     using LuckySlots.Data.Extensions;
     using LuckySlots.Data.Models;
@@ -83,6 +84,7 @@
             .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
             services.AddKendo();
+            services.AddSignalR();
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -122,6 +124,11 @@
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chat");
+            });
 
             app.UseMvc(routes =>
             {

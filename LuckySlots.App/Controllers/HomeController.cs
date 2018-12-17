@@ -4,13 +4,11 @@
     using LuckySlots.Data.Models;
     using LuckySlots.Infrastructure.Providers;
     using LuckySlots.Services.Contracts;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Diagnostics;
-    using System.Threading.Tasks;
 
     public class HomeController : Controller
     {
@@ -34,12 +32,16 @@
         public IActionResult Index()
         {
             this.ViewBag.IsValid = false;
+            
+            // TODO: Consider refactoring
+            //this.ViewBag.IsCalledFirstTime = true;
+            //this.ViewBag.IsValid = true;
 
             return View("Index");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(ValidationModalViewModel validationModel)
+        public IActionResult Index(ValidationModalViewModel validationModel)
         {
             this.ViewBag.IsValid = true;
 
@@ -52,7 +54,12 @@
             
             return View();
         }
-        
+
+        public IActionResult Chat()
+        {
+            return View();
+        }
+
         public IActionResult About()
         {
             if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
@@ -62,7 +69,7 @@
 
             return View();
         }
-        
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

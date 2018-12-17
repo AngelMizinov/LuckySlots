@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using System;
     using System.Threading.Tasks;
 
     [Authorize]
@@ -54,6 +55,10 @@
             {
                 // TODO: Catch exception in ajax error
                 throw new InsufficientFundsException("You do not have enought funds for this stake!");
+            }
+            else if (stake < 0)
+            {
+                throw new ArgumentException();
             }
 
             var game = this.gameService.GetGame(gameName);

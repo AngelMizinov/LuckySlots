@@ -47,11 +47,14 @@
     canvas.width = canvasWidth
     let ctx = canvas.getContext('2d')
 
-    $('#spin-button').on('click', function () {
+    $('#spin-form').on('submit', function (e) {
+        e.preventDefault()
+        let token = $(this).serialize()
         $.ajax({
             method: 'POST',
             url: '/game/getgame',
             data: {
+                "__RequestVerificationToken": token.__RequestVerificationToken,
                 gameName: gameName,
                 stake: $('#stake-input').val()
             },
@@ -69,6 +72,8 @@
             }
 
             balanceSpan.html(balance.toFixed(2))
+            }).fail(function (xhr, textStatus, errorThrown) {
+                $('#invalid-stake-alert').show().fadeOut(5000)
         })
     })
 
@@ -103,6 +108,5 @@
         }
 
         $('#amount-won').text(`${data.Winnings}`)
-        //alert(`You win: ${data.Winnings}`)
     }
 })
