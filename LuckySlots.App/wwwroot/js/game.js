@@ -102,6 +102,7 @@
             ctx.stroke()
         }
 
+        $('#amount-won').text(`${data.Winnings}`)
         //alert(`You win: ${data.Winnings}`)
     }
 })

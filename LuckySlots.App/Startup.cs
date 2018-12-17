@@ -66,6 +66,7 @@
             services.AddScoped<ISpinResult, SpinResult>();
             services.AddSingleton<IGameFactory, GameFactory>();
             services.AddTransient<IRandomizer, Randomizer>();
+            services.AddScoped<IGameStatsService, GameStatsService>();
 
             services.AddMvc(options =>
             {

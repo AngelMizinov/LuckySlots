@@ -19,9 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Support\Controllers\" />
-    <Folder Include="Areas\Support\Models\" />
-    <Folder Include="Areas\Support\Views\" />
     <Folder Include="wwwroot\images\games\game-of-codes\" />
     <Folder Include="wwwroot\images\games\treasures-of-egypt\" />
     <Folder Include="wwwroot\images\games\tuttifrutti\" />
@@ -34,6 +31,12 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\Admin\Views\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Support\Views\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Support\Views\_ViewStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>
