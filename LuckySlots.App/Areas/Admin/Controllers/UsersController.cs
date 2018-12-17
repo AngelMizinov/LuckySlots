@@ -64,16 +64,15 @@
 
             var user = await this.userManagementServices.GetUserByIdAsync(model.Id);
 
-            await this.userManagementServices.ToggleRole(user, "Support");
-
             return RedirectToAction(nameof(All));
         }
 
         [HttpPost]
-        public IActionResult ManageRoles(string role)
+        public IActionResult ManageRoles(string userId, string role)
         {
             // TODO: Create a service to update the roles of the user
             // TODO: Create a servide to lock/unlock the user
+            this.userManagementServices.ToggleRole(this.User.Identity.Name, role);
             this.StatusMessage = $"User roles updated successfully.";
 
             return RedirectToAction(nameof(All));

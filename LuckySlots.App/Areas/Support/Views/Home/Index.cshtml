@@ -1,0 +1,30 @@
+﻿@model IEnumerable<GameStats>
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2>This will be the Dashboard</h2>
+
+<table class="table table-striped table-hover table-dark text-white">
+    <thead class="text-warning">
+        <tr>
+            <td></td>
+            <td>Games played</td>
+            <td>Amount Staked</td>
+            <td>Amount Paid-out</td>
+            <td>delta</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var gameStat in Model)
+        {
+            <tr>
+                <td>@gameStat.Name</td>
+                <td>@gameStat.GamesPlayed</td>
+                <td>@gameStat.AmountStaked</td>
+                <td>@gameStat.AmountPaidOut</td>
+                <td>@(gameStat.AmountStaked - gameStat.AmountPaidOut)</td>
+            </tr>
+        }
+    </tbody>
+</table>

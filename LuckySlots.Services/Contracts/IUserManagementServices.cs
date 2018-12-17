@@ -15,7 +15,7 @@
 
         //Task<bool> ToggleRole(User user, string role);
 
-        Task<EntityEntry<IdentityUserRole<string>>> ToggleRole(User user, string roleName);
+        Task<IdentityResult> ToggleRole(string userName, string roleName);
 
         Task<User> UpdateFirstName(string userId, string name);
 

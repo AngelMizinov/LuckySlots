@@ -4,10 +4,12 @@
     using LuckySlots.Infrastructure.Enums;
     using LuckySlots.Services.Contracts;
     using LuckySlots.Services.Infrastructure.Exceptions;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
 
+    [Authorize]
     public class GameController : Controller
     {
         private readonly IGameService gameService;

@@ -2,16 +2,15 @@
 {
     using LuckySlots.Data;
     using LuckySlots.Data.Models;
+    using LuckySlots.Infrastructure;
     using LuckySlots.Services.Abstract;
     using LuckySlots.Services.Contracts;
     using LuckySlots.Services.Infrastructure.Exceptions;
     using LuckySlots.Services.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.ChangeTracking;
     using System;
     using System.Linq;
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     public class UserManagementServices : BaseService, IUserManagementServices
@@ -43,55 +42,64 @@
                 }));
 
         //public async Task<bool> ToggleRole(User user, string role);
-        public async Task<EntityEntry<IdentityUserRole<string>>> ToggleRole(User user, string roleName)
+        public async Task<IdentityResult> ToggleRole(string userName, string roleName)
         {
-            try
+            var user = await this.userManager.FindByNameAsync(userName);
+
+            // Check if user exists
+            if (user == null)
             {
-                if (user == null)
-                {
-                    throw new NullReferenceException("User cannot be null.");
-                }
-
-                var existingRole = await this.Context.Roles.FirstOrDefaultAsync(x => x.Name == roleName);
-
-                if (existingRole == null)
-                {
-                    throw new ArgumentException("Role does not exist.");
-                }
-
-                var isInRole = await Context.UserRoles.AnyAsync(x => x.UserId == user.Id && x.RoleId == existingRole.Id);
-
-                if (isInRole == true)
-                {
-                    throw new ArgumentException($"User {user.UserName} is already in role {roleName}.");
-                }
-            }
-            catch (Exception)
-            {
-                throw;
+                throw new NullReferenceException("User cannot be null.");
             }
 
-            //await this.userManager.AddToRoleAsync(user, role);
-            //await this.Context.SaveChangesAsync();
+            // Check if role exists
+            var roleExists = await this.roleManager.RoleExistsAsync(roleName);
 
-            var role = await this.Context.Roles.FirstOrDefaultAsync(r => r.Name == roleName);
+            //var existingRole = await this.Context.Roles.FirstOrDefaultAsync(x => x.Name == roleName);
 
-            var userRole = new IdentityUserRole<string>()
+            if (!roleExists)
             {
-                RoleId = role.Id.ToString(),
-                UserId = user.Id
-            };
+                throw new ArgumentException("Role does not exist.");
+            }
 
-            var result = await this.Context.UserRoles.AddAsync(userRole);
+            var isInRole = await this.userManager.IsInRoleAsync(user, roleName);
+            var result = new IdentityResult();
+
+            if (isInRole == true)
+            {
+                result = await this.userManager.RemoveFromRoleAsync(user, roleName);
+
+                if (roleName == GlobalConstants.AdministratorRoleName)
+                {
+                    user.IsAdmin = false;
+                }
+                else
+                {
+                    user.IsSupport = false;
+                }
+            }
+            else
+            {
+                result = await this.userManager.AddToRoleAsync(user, roleName);
+
+                if (roleName == GlobalConstants.AdministratorRoleName)
+                {
+                    user.IsAdmin = true;
+                }
+                else
+                {
+                    user.IsSupport = true;
+                }
+            }
+
             await this.Context.SaveChangesAsync();
 
             return result;
-            //return await this.userManager.AddToRoleAsync(user, role);
         }
 
         public async Task<User> UpdateFirstName(string userId, string name)
         {
-            if(name == null)
+            if (name == null)
             {
                 throw new ArgumentException("Name cannot be null.");
             }
@@ -100,7 +108,7 @@
                 .Where(us => us.Id == userId)
                 .FirstOrDefaultAsync();
 
-            if(user == null || user.IsDeleted == true)
+            if (user == null || user.IsDeleted == true)
             {
                 throw new UserDoesntExistsException("User with this id does not exists.");
             }
@@ -148,7 +156,7 @@
 
             await this.Context.SaveChangesAsync();
 
-            return user.IsAccountLocked; 
+            return user.IsAccountLocked;
         }
 
         public async Task<User> GetUserByIdAsync(string userId)
