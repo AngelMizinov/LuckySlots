@@ -4,13 +4,11 @@
     using LuckySlots.Data.Models;
     using LuckySlots.Infrastructure.Providers;
     using LuckySlots.Services.Contracts;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Diagnostics;
-    using System.Threading.Tasks;
 
     public class HomeController : Controller
     {
@@ -37,11 +35,10 @@
             this.ViewBag.IsCalledFirstTime = true;
             this.ViewBag.IsValid = true;
             return View();
-            
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(ValidationModalViewModel validationModel)
+        public IActionResult Index(ValidationModalViewModel validationModel)
         {
             this.ViewBag.IsCalledFirstTime = false;
             this.ViewBag.IsValid = true;
@@ -62,28 +59,11 @@
             return View();
         }
 
-        //[Authorize]
-        //[HttpGet]
-        //public IActionResult Deposit()
-        //{
-        //    ViewData["Message"] = "Your application deposit page.";
+        public IActionResult Chat()
+        {
+            return View();
+        }
 
-        //    return RedirectToAction(nameof(DepositSuccessful));
-        //}
-
-        //public IActionResult DepositSuccessful()
-        //{
-        //    return RedirectToAction(nameof(Deposit));
-        //}
-
-        //[Authorize]
-        //[HttpPost]
-        //public IActionResult Deposit(DepositViewModel model)
-        //{
-        //    ViewData["Message"] = "Your application deposit page.";
-
-        //    return View();
-        //}
 
         public IActionResult About()
         {
@@ -94,28 +74,6 @@
 
             return View();
         }
-
-        //public IActionResult Contact()
-        //{
-        //    ViewData["Message"] = "Your contact page.";
-
-        //    if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
-        //    {
-        //        return PartialView();
-        //    }
-
-        //    return View();
-        //}
-
-        //public IActionResult Privacy()
-        //{
-        //    if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
-        //    {
-        //        return PartialView();
-        //    }
-
-        //    return View();
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

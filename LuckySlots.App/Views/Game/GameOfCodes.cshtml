@@ -12,22 +12,42 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div class="alert alert-danger" id="invalid-stake-alert">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                Please enter a valid stake.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-8">
                             <canvas style="background-color: #343a40"></canvas>
                         </div>
                         <div class="col-md-4">
-                            <label for="stake-input">Stake: </label>
-                            <input id="stake-input" type="text" class="form-control" value="10" />
-                            <button id="spin-button" class="btn btn-warning form-control">Spin</button>
+                            <form id="spin-form" asp-controller="Game" asp-action="GetGame" method="post">
+                                <label for="stake-input">Stake: </label>
+                                <input id="stake-input" type="text" class="form-control" value="10" />
+                                <button type="submit" id="spin-button" class="btn btn-warning form-control">Spin</button>
+                            </form>
                             <div class="row">
                                 <h6>You win: <span id="amount-won"></span></h6>
                             </div>
                         </div>
                     </div>
+
+
+                    @*<div class="alert alert-warning alert-dismissible fade" role="alert">
+                            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>*@
                 </div>
             </div>
         </div>
     </div>
+
+
 </div>
 
 @section Scripts {

@@ -83,7 +83,7 @@
         columns.Bound(u => u.FirstName);
         columns.Bound(u => u.LastName);
         columns.Bound(u => u.Email);
-        columns.Template("<button type=\"button\" class=\"btn btn-warining btn-sm\" data-toggle=\"modal\" data-target=\".bd-example-modal-sm\">Edit</button>");
+        columns.Bound(u => u.Id).ClientTemplate("<button type=\"button\" class=\"btn btn-warining btn-sm\" data-id=\"#= Id #\" data-toggle=\"modal\" data-target=\".bd-example-modal-sm\">Edit</button>");
     })
     .HtmlAttributes(new { @class = "bg-dark text-warning" })
     .Pageable(page => page.PageSizes(new[] { 5, 10, 15 }))

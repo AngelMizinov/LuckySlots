@@ -57,3 +57,7 @@ body {
     height: 12vw;
     object-fit: cover;
 }
+
+#invalid-stake-alert {
+    display: none
+}

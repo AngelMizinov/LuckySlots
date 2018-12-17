@@ -1,9 +1,7 @@
 ﻿namespace LuckySlots.App.Areas.Support.Controllers
 {
     using LuckySlots.App.Areas.Support.Models;
-    using LuckySlots.Infrastructure;
     using LuckySlots.Services.Contracts;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
 
