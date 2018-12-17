@@ -32,10 +32,6 @@
         public IActionResult Index()
         {
             this.ViewBag.IsValid = false;
-            
-            // TODO: Consider refactoring
-            //this.ViewBag.IsCalledFirstTime = true;
-            //this.ViewBag.IsValid = true;
 
             return View("Index");
         }
@@ -51,7 +47,7 @@
                 this.ViewBag.IsValid = false;
                 return RedirectToAction("Index");
             }
-            
+
             return View();
         }
 
