@@ -31,7 +31,6 @@
             this.jsonParser = jsonParser;
         }
 
-        // TODO: Add exchange rate in ChargeAccountAsync
         public async Task<decimal> ChargeAccountAsync(string userId, decimal amount, TransactionType type, string gameName = null)
         {
             var user = await this.Context.Users
@@ -48,28 +47,38 @@
             }
 
             string description = "";
+            double exchangeRate = 1;
 
             if (type == TransactionType.Stake)
             {
                 description = $"Stake on game {gameName}";
+
+                if (user.Currency != "USD")
+                {
+                    exchangeRate = await this.jsonParser.ExtractExchangeRate(user.Currency);
+                }
             }
             else //check Withdrawal
             {
 
             }
-
+            
             user.AccountBalance -= amount;
 
-            // TODO: Change all instances of DateTime.Now to DateTime.UtcNow
             var transaction = new Transaction
             {
                 Date = DateTime.UtcNow,
                 User = user,
                 Type = type.ToString(),
                 Amount = amount,
+                BaseCurrency = "USD",
+                BaseCurrencyAmount = amount/ (decimal)exchangeRate,
+                ExchangeRate = exchangeRate,
+                QuotedCurrency = user.Currency,
+                QuotedCurrencyAmount = amount,
                 Description = description
             };
-
+            
             var createTransactionResult = await this.Context.Transactions.AddAsync(transaction);
 
             if (createTransactionResult == null)
