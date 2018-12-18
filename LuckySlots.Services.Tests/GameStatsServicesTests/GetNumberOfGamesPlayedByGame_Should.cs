@@ -1,4 +1,4 @@
-﻿namespace LuckySlots.Services.Tests.GameServicesTests
+﻿namespace LuckySlots.Services.Tests.GameStatsServicesTests
 {
     using LuckySlots.Data;
     using LuckySlots.Data.Models;

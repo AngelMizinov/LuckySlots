@@ -2,10 +2,10 @@
 
 <!-- Modal -->
 <div class="modal fade" id="delete-card-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Add New Card</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Select Card</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,7 +13,7 @@
             <div class="modal-body">
                 <form asp-controller="Profile" asp-action="DeleteCard" method="post">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-10">
                             <div class="form-group">
                                 <label asp-for="@Model.CardId">Card Number</label>
                                 <br />

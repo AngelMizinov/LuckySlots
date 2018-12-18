@@ -18,8 +18,4 @@
     <ProjectReference Include="..\LuckySlots.Services\LuckySlots.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="GameStatsServicesTests\" />
-  </ItemGroup>
-
 </Project>
