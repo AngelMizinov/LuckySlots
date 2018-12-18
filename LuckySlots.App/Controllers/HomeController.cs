@@ -61,6 +61,11 @@
 
         public IActionResult Chat()
         {
+            if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
+            {
+                return PartialView();
+            }
+
             return View();
         }
 

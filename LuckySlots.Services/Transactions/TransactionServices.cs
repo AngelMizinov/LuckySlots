@@ -59,7 +59,7 @@
                     BaseCurrency = tr.BaseCurrency,
                     BaseCurrencyAmount = tr.BaseCurrencyAmount,
                     Description = tr.Description,
-                    UserName = tr.User.UserName
+                    UserName = tr.User.UserName,
                 }));
 
         public Task<IQueryable<TransactionUserListModel>> GetAllByUserIdAsync(string id)

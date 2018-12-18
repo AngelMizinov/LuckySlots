@@ -39,7 +39,6 @@
             }
             else
             {
-                // TODO: Try/catch the exception.
                 throw new GameDoesntExistsException("This game does not exists.");
             }
         }
@@ -48,7 +47,6 @@
         {
             if (game == null)
             {
-                // TODO: Create a custom exception and try/catch it.
                 throw new ArgumentException("Game cannot be null!");
             }
 

@@ -72,7 +72,7 @@
                 Type = type.ToString(),
                 Amount = amount,
                 BaseCurrency = "USD",
-                BaseCurrencyAmount = amount/ (decimal)exchangeRate,
+                BaseCurrencyAmount = amount / (decimal)exchangeRate,
                 ExchangeRate = exchangeRate,
                 QuotedCurrency = user.Currency,
                 QuotedCurrencyAmount = amount,
@@ -83,7 +83,6 @@
 
             if (createTransactionResult == null)
             {
-                // TODO: Try/Catch the exception
                 throw new TransactionFailedException("Failed to add the new transaction to the DB.");
             }
 
@@ -160,7 +159,6 @@
 
             if (createTransactionResult == null)
             {
-                // TODO: Try/Catch it the exception
                 throw new TransactionFailedException("Failed to add the new transaction to the DB.");
             }
 

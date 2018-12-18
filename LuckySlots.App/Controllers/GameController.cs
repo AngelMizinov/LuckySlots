@@ -53,12 +53,11 @@
 
             if (stake > balance)
             {
-                // TODO: Catch exception in ajax error
-                throw new InsufficientFundsException("You do not have enought funds for this stake!");
+                throw new InsufficientFundsException("You do not have enough funds for this stake!");
             }
             else if (stake < 0)
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Stake is not valid!");
             }
 
             var game = this.gameService.GetGame(gameName);
