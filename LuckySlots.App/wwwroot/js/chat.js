@@ -20,7 +20,7 @@ $(function () {
         // The post handler will send the user data and the typed text to the SignalR Hub.
         // The Hub will then forward that info to the other clients.
         post: function (args) {
-            chatHub.invoke("send", chat.getUser(), args.text, username);
+            chatHub.invoke("send", chat.getUser(), args.text);
         }
     }).data("kendoChat");
 

@@ -73,8 +73,18 @@
             return RedirectToAction(nameof(All));
         }
 
+        public IActionResult Manage(string userId)
+        {
+            if (this.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest")
+            {
+                return PartialView();
+            }
+
+            return View();
+        }
+
         [HttpPost]
-        public IActionResult ManageRoles(string userId, string role)
+        public IActionResult ManageRole(string userId, string role)
         {
             // TODO: Create a service to update the roles of the user
             // TODO: Create a servide to lock/unlock the user
@@ -82,6 +92,12 @@
             this.StatusMessage = $"User roles updated successfully.";
 
             return RedirectToAction(nameof(All));
+        }
+
+        public async Task<IActionResult> ManageLock(string userId)
+        {
+            var result = await this.userManagementServices.ToggleUserLock(userId);
+            return Ok();
         }
     }
 }
