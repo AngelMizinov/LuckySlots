@@ -35,12 +35,13 @@ namespace LuckySlots.Services.Tests.AccountServicesTests
             var user = new User()
             {
                 Id = "1",
-                AccountBalance = 300
+                AccountBalance = 300,
+                Currency = "EUR"
             };
 
             mockJsonParser
                 .Setup(jp => jp.ExtractExchangeRate(It.IsAny<string>()))
-                .ReturnsAsync(It.IsAny<double>());
+                .ReturnsAsync(1.5);
 
             decimal expectedBalance;
             using (var actContext = new LuckySlotsDbContext(options))

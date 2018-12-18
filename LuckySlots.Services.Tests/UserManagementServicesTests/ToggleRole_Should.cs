@@ -63,6 +63,7 @@
 
                 var user = new User()
                 {
+                    UserName = "angel",
                     Id = userId
                 };
 
@@ -109,56 +110,10 @@
                 
                 //await Assert.ThrowsExceptionAsync<ArgumentException>(() =>
                 //    sut.ToggleRole(user, userRole));
+                //await Assert.ThrowsExceptionAsync<NullReferenceException>(() =>
+                //    sut.ToggleRole(user.UserName, role));
             }
         }
-
-        //[TestMethod]
-        //public async Task AddUser_ToRole()
-        //{
-        //    // Arrange
-        //    var options = GetDbContextOptions("AddUser_ToRole");
-
-        //    using (var context = new LuckySlotsDbContext(options))
-        //    {
-        //        //var role = new IdentityRole
-        //        //{
-        //        //    Name = "Administrator"
-        //        //};
-
-        //        var roleStore2 = new RoleStore<IdentityRole<string>>(context);
-        //        var roleManagerMoq = new Mock<RoleManager<IdentityRole>>();
-        //        roleManagerMoq.Setup(x => x.RoleExistsAsync(It.IsAny<string>())).ReturnsAsync(true);
-
-        //        var userId = Guid.NewGuid().ToString();
-
-        //        var user = new User()
-        //        {
-        //            Id = userId,
-        //            IsAdmin = false
-        //        };
-
-        //        //var role = new IdentityRole();
-        //        //role.Name = "Admin";
-
-        //        //var userRole2 = new IdentityUserRole<string>()
-        //        //{
-        //        //    RoleId = role.Id,
-        //        //    UserId = user.Id
-        //        //};
-
-        //        await context.Users.AddAsync(user);
-        //        //await context.Roles.AddAsync(role);
-        //        await context.SaveChangesAsync();
-
-        //        var sut = new UserManagementServices(context, userManagerMoq, roleManagerMoq.Object);
-
-        //        var result = await sut.ToggleRole(user, "Administrator");
-
-        //        //var roleExists = await context.UserRoles.AnyAsync(userRole => userRole.UserId == user.Id && userRole.RoleId == role.Id);
-
-        //        Assert.IsTrue(user.IsAdmin);
-        //    }
-        //}
-
+        
     }
 }

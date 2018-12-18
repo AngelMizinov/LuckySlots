@@ -6,14 +6,9 @@
 
 @if (!User.Identity.IsAuthenticated)
 {
-    if (ViewBag.IsCalledFirstTime)
-    {
-        @*<partial name="_ValidationModal" model="@Model" />*@
-    }
-
     if (!ViewBag.IsValid)
     {
-        @*<partial name="_ValidationModal" model="@Model" />*@
+        <partial name="_ValidationModal" model="@Model" />
     }
 }
 
@@ -62,13 +57,4 @@
     <script>
         $('.alert').alert();
     </script>
-
-    @*<script>
-            function onCompleteFunction() {
-                var form = $("#modal-form");
-                form.removeData('validator');
-                form.removeData('unobtrusiveValidation');
-                $.validator.unobtrusive.parse(form);
-            }
-        </script>*@
 }

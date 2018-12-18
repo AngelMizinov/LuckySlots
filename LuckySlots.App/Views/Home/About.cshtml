@@ -1,5 +1,33 @@
 ﻿@{
     ViewData["Title"] = "About";
 }
+<div class="row">
+    <h1>You can find us at:</h1>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h4>Aleksandar Malinov Boulevard 31, 1729 g.k. Mladost 1A, Sofia, Bulgaria</h4>
+    </div>
+    <div class="col-md-8">
+        <div id="map"></div>
+    </div>
+</div>
 
-<p>Use this area to provide additional information.</p>
+<script>
+    // Initialize and add the map
+    function initMap() {
+        // The location of Uluru
+        var uluru = { lat: 42.65084700000001, lng: 23.379431000000068 };
+        // The map, centered at Uluru
+        var map = new google.maps.Map(
+            document.getElementById('map'), { zoom: 18, center: uluru });
+        // The marker, positioned at Uluru
+        var marker = new google.maps.Marker({ position: uluru, map: map });
+    }
+
+        //initMap();
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbGBfxwfVNuXS1OY-O8qbuglmWIbkEC70&callback=initMap">
+</script>

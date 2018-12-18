@@ -25,13 +25,14 @@
                         </div>
                         <div class="col-md-4">
                             <form id="spin-form" asp-controller="Game" asp-action="GetGame" method="post">
-                                <label for="stake-input">Stake: </label>
-                                <input id="stake-input" type="text" class="form-control" value="10" />
-                                <button id="spin-button" class="btn btn-warning form-control">Spin</button>
+                                <div class="row">
+                                    <label for="stake-input">Stake: </label>
+                                    <input id="stake-input" type="text" class="form-control" value="10" />
+                                    <button id="spin-button" class="btn btn-warning form-control">Spin</button>
+                                </div>
                             </form>
                             <div class="row">
-                                <h6>You win: </h6>
-                                <h6 id="amount-won"></h6>
+                                <h5>You win: <span id="amount-won"></span></h5>
                             </div>
                         </div>
                     </div>
